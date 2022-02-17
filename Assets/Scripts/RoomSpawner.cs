@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class RoomSpawner : MonoBehaviour
 {
@@ -27,45 +28,9 @@ public class RoomSpawner : MonoBehaviour
         if (this.spawned == true)
             return;
 
-        int rand;
-        switch (this.openingDirection) {
-            case 1:
-                // Need to spawn a room with a BOTTOM door
-                rand = Random.Range(0, this.templates.bottomRooms.Length);
-                Instantiate(
-                    this.templates.bottomRooms[rand],
-                    this.transform.position,
-                    this.templates.bottomRooms[rand].transform.rotation
-                );
-                break;
-            case 2:
-                // Need to spawn a room with a TOP door
-                rand = Random.Range(0, this.templates.topRooms.Length);
-                Instantiate(
-                    this.templates.topRooms[rand],
-                    this.transform.position,
-                    this.templates.topRooms[rand].transform.rotation
-                );
-                break;
-            case 3:
-                // Need to spawn a room with a LEFT door
-                rand = Random.Range(0, this.templates.leftRooms.Length);
-                Instantiate(
-                    this.templates.leftRooms[rand],
-                    this.transform.position,
-                    this.templates.leftRooms[rand].transform.rotation
-                );
-                break;
-            case 4:
-                // Need to spawn a room with a RIGHT door
-                rand = Random.Range(0, this.templates.rightRooms.Length);
-                Instantiate(
-                    this.templates.rightRooms[rand],
-                    this.transform.position,
-                    this.templates.rightRooms[rand].transform.rotation
-                );
-                break;
-        }
+        GameObject[] rooms = this.GetAssociatedRooms(this.openingDirection);
+        int rand = Random.Range(0, rooms.Length);
+        Instantiate(rooms[rand], this.transform.position, rooms[rand].transform.rotation);
 
         this.spawned = true;
     }
@@ -73,15 +38,38 @@ public class RoomSpawner : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("SpawnPoint")) {
-            if (other.GetComponent<RoomSpawner>().spawned == false && this.spawned == false) {
+            RoomSpawner otherRoom = other.GetComponent<RoomSpawner>();
+            if (otherRoom.spawned == false && this.spawned == false) {
+                GameObject[] myRooms = this.GetAssociatedRooms(this.openingDirection);
+                GameObject[] otherRooms = this.GetAssociatedRooms(otherRoom.openingDirection);
+
+                GameObject[] sharedRooms = myRooms.Intersect(otherRooms).ToArray();
+                int rand = Random.Range(0, sharedRooms.Length);
+
                 Instantiate(
-                    this.templates.closedRoom,
+                    sharedRooms[rand],
                     this.transform.position,
                     Quaternion.identity
                 );
                 Destroy(this.gameObject);
             }
             this.spawned = true;
+        }
+    }
+
+    GameObject[] GetAssociatedRooms(int openingDirection)
+    {
+        switch (openingDirection) {
+            case 1:
+                return this.templates.bottomRooms;
+            case 2:
+                return this.templates.topRooms;
+            case 3:
+                return this.templates.leftRooms;
+            case 4:
+                return this.templates.rightRooms;
+            default:
+                return this.templates.bottomRooms;
         }
     }
 }
