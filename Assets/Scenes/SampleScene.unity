@@ -3027,6 +3027,8 @@ MonoBehaviour:
   wallCornerRightBottom: {fileID: 6396351711872829639, guid: 735cebce834f7cae281590e2e600442a, type: 3}
   wallCornerLeftTop: {fileID: 1267229299709944895, guid: 00fa0197b6a0e154994e0d8589b48967, type: 3}
   wallCornerRightTop: {fileID: 4606517763690513867, guid: 05daaa25d5b7b3e2a962073f66d0ec4f, type: 3}
+  wallSideLeft: {fileID: 1138468554098622881, guid: 788b142580642e921be2c5420df1da3d, type: 3}
+  wallSideRight: {fileID: 4283709137751744693, guid: 388cf58308dba5c59b7b8939fb7affa5, type: 3}
   openDoor: {fileID: 9061364996367516047, guid: bf1e780da5ef48c67baecba08c3d9ab9, type: 3}
   closedDoor: {fileID: 7417605975487921087, guid: 89ecd16c45a9a0f199d8f720f81be227, type: 3}
   isDoorOpen: 1
