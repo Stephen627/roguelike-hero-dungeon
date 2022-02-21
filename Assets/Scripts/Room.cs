@@ -1,9 +1,23 @@
-    using System;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Room : MonoBehaviour
 {
+    [Serializable]
+    public class Coordinates
+    {
+        public float x;
+        public float y;
+
+        public Coordinates(float x, float y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     public int columns;
     public int rows;
     public GameObject[] floorTiles;
@@ -19,9 +33,11 @@ public class Room : MonoBehaviour
     public GameObject wallCornerRightTop;
     public GameObject wallSideLeft;
     public GameObject wallSideRight;
-    public GameObject openDoor;
-    public GameObject closedDoor;
-    public bool isDoorOpen = false;
+    public Door door;
+    public bool areDoorsOpen = false;
+    public Coordinates[] doorLocations;
+
+    private List<GameObject> doors = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
@@ -38,12 +54,13 @@ public class Room : MonoBehaviour
 
         for (int x = halfColumns * -1; x < halfColumns; x++)
         {
+            bool inDoorCoords = this.WithinDoorTile(x);
             for (int y = (halfRows * -1) - 1; y < halfRows + 2; y++) // Modifications made to accommodate walls
             {
                 GameObject toInstantiate = new GameObject();
 
                 // First row is just all wall tops
-                if (wallTopRow == y)
+                if (wallTopRow == y && !inDoorCoords)
                 {
                     // Output wall tops
                     if (firstRow == x)
@@ -53,7 +70,7 @@ public class Room : MonoBehaviour
                     else
                         toInstantiate = this.wallMidTopTile;
                 }
-                else if (topWallsRow == y)
+                else if (topWallsRow == y && !inDoorCoords)
                 {
                     // Output walls and door in the middle
                     if (firstRow == x)
@@ -63,7 +80,7 @@ public class Room : MonoBehaviour
                     else
                         toInstantiate = this.wallMidTile;
                 }
-                else if (bottomWallsRow == y)
+                else if (bottomWallsRow == y && !inDoorCoords)
                 {
                     // Output walls and door in the middle
                     if (firstRow == x)
@@ -75,20 +92,19 @@ public class Room : MonoBehaviour
                 }
                 else
                 {
-                    toInstantiate = this.GetFloorTile();
+                    if (wallTopRow != y && topWallsRow != y)
+                        toInstantiate = this.GetFloorTile();
 
-                    if (firstRow == x && bottomWallsRow + 1 != y)
+                    if (firstRow == x && bottomWallsRow + 1 != y && !inDoorCoords)
                     {
-                        GameObject sideWallInstance = Instantiate(this.wallSideLeft, new Vector3(x, y, 0), Quaternion.identity);
-                        sideWallInstance.transform.SetParent(this.gameObject.transform);
+                        GameObject sideWallInstance = Instantiate(this.wallSideLeft, new Vector3(x, y, 0), Quaternion.identity, this.gameObject.transform);
                     } 
-                    else if (lastRow == x && bottomWallsRow + 1 != y)
+                    else if (lastRow == x && bottomWallsRow + 1 != y && !inDoorCoords)
                     {
-                        GameObject sideWallInstance = Instantiate(this.wallSideRight, new Vector3(x, y, 0), Quaternion.identity);
-                        sideWallInstance.transform.SetParent(this.gameObject.transform);
+                        GameObject sideWallInstance = Instantiate(this.wallSideRight, new Vector3(x, y, 0), Quaternion.identity, this.gameObject.transform);
                     }
 
-                    if (bottomWallsRow + 1 == y)
+                    if (bottomWallsRow + 1 == y && !inDoorCoords)
                     {
                         GameObject wallTop = new GameObject();
                         if (firstRow == x)
@@ -104,22 +120,47 @@ public class Room : MonoBehaviour
                             wallTop = this.wallMidTopTile;
                         }
 
-                        GameObject wallTopInstance = Instantiate(wallTop, new Vector3(x, y, 0), Quaternion.identity);
-                        wallTopInstance.transform.SetParent(this.gameObject.transform);
+                        GameObject wallTopInstance = Instantiate(wallTop, new Vector3(x, y, 0), Quaternion.identity, this.gameObject.transform);
                     }
                 }
 
-                GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0), Quaternion.identity);
-                instance.transform.SetParent(this.gameObject.transform);
+                GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0), Quaternion.identity, this.gameObject.transform);
                 
             }
         }
+
+        for (int i = 0; i < this.doorLocations.Length; i++)
+        {
+            Coordinates doorCoords = this.doorLocations[i];
+            GameObject doorObject = this.door.gameObject;
+            this.door.isDoorOpen = this.areDoorsOpen;
+            GameObject instance = Instantiate(doorObject, new Vector3(doorCoords.x, doorCoords.y, 0), Quaternion.identity, this.gameObject.transform);
+
+            this.doors.Add(instance);
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        for (int i = 0; i < this.doors.Count; i++)
+        {
+            this.doors[i].GetComponent<Door>().isDoorOpen = this.areDoorsOpen;
+        }
+    }
+
+    private bool WithinDoorTile(int x)
+    {
+        bool inCoords = false;
+
+        for (int i = 0; i < this.doorLocations.Length; i++)
+        {
+            Coordinates doorCoords = this.doorLocations[i];
+            inCoords = x >= doorCoords.x - 2 && x <= doorCoords.x + 2;
+            if (inCoords)
+                break;
+        }
+
+        return inCoords;
     }
 
     private GameObject GetFloorTile()
