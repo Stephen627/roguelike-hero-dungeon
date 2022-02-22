@@ -52,9 +52,12 @@ public class RoomSpawner : MonoBehaviour
     [HideInInspector]
     public List<GameObject> doors = new List<GameObject>();
 
-    // Start is called before the first frame update
-    void Start()
+    private Transform parent;
+
+    public void Spawn()
     {
+        this.parent = new GameObject("Room").transform;
+
         int columns = Random.Range(this.columns.min, this.columns.max);
         int rows = Random.Range(this.rows.min, this.rows.max);
         Room roomController = this.GetComponent<Room>();
@@ -73,7 +76,7 @@ public class RoomSpawner : MonoBehaviour
             bool inDoorCoords = this.WithinDoorTile(x);
             for (int y = (halfRows * -1) - 1; y < halfRows + 2; y++) // Modifications made to accommodate walls
             {
-                GameObject toInstantiate = new GameObject();
+                GameObject toInstantiate = null;
 
                 // First row is just all wall tops
                 if (wallTopRow == y && !inDoorCoords)
@@ -113,16 +116,16 @@ public class RoomSpawner : MonoBehaviour
 
                     if (firstRow == x && bottomWallsRow + 1 != y && !inDoorCoords)
                     {
-                        GameObject sideWallInstance = Instantiate(this.wallSideLeft, new Vector3(x, y, 0), Quaternion.identity, this.gameObject.transform);
+                        GameObject sideWallInstance = Instantiate(this.wallSideLeft, new Vector3(x, y, 0), Quaternion.identity, this.parent);
                     } 
                     else if (lastRow == x && bottomWallsRow + 1 != y && !inDoorCoords)
                     {
-                        GameObject sideWallInstance = Instantiate(this.wallSideRight, new Vector3(x, y, 0), Quaternion.identity, this.gameObject.transform);
+                        GameObject sideWallInstance = Instantiate(this.wallSideRight, new Vector3(x, y, 0), Quaternion.identity, this.parent);
                     }
 
                     if (bottomWallsRow + 1 == y && !inDoorCoords)
                     {
-                        GameObject wallTop = new GameObject();
+                        GameObject wallTop;
                         if (firstRow == x)
                         {
                             wallTop = this.wallCornerLeftBottom;    
@@ -136,12 +139,12 @@ public class RoomSpawner : MonoBehaviour
                             wallTop = this.wallMidTopTile;
                         }
 
-                        GameObject wallTopInstance = Instantiate(wallTop, new Vector3(x, y, 0), Quaternion.identity, this.gameObject.transform);
+                        Instantiate(wallTop, new Vector3(x, y, 0), Quaternion.identity, this.parent);
                     }
                 }
 
-                GameObject instance = Instantiate(toInstantiate, new Vector3(x, y, 0), Quaternion.identity, this.gameObject.transform);
-                
+                if (toInstantiate != null)
+                    Instantiate(toInstantiate, new Vector3(x, y, 0), Quaternion.identity, this.parent);
             }
         }
 
@@ -150,7 +153,7 @@ public class RoomSpawner : MonoBehaviour
             Coordinates doorCoords = this.doorLocations[i];
             GameObject doorObject = this.door.gameObject;
             this.door.isDoorOpen = roomController.areDoorsOpen;
-            GameObject instance = Instantiate(doorObject, new Vector3(doorCoords.x, doorCoords.y, 0), Quaternion.identity, this.gameObject.transform);
+            GameObject instance = Instantiate(doorObject, new Vector3(doorCoords.x, doorCoords.y, 0), Quaternion.identity, this.parent);
 
             this.doors.Add(instance);
         }
