@@ -18,8 +18,21 @@ public class RoomSpawner : MonoBehaviour
         }
     }
 
-    public int columns;
-    public int rows;
+    [Serializable]
+    public class Range
+    {
+        public int max;
+        public int min;
+
+        public Range(int max, int min)
+        {
+            this.max = max;
+            this.min = min;
+        }
+    }
+
+    public Range columns;
+    public Range rows;
     public GameObject[] floorTiles;
     public GameObject wallMidTile;
     public GameObject wallLeftTile;
@@ -42,9 +55,11 @@ public class RoomSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        int columns = Random.Range(this.columns.min, this.columns.max);
+        int rows = Random.Range(this.rows.min, this.rows.max);
         Room roomController = this.GetComponent<Room>();
-        int halfColumns = this.columns / 2;
-        int halfRows = this.rows / 2;
+        int halfColumns = columns / 2;
+        int halfRows = rows / 2;
 
         int firstRow = halfColumns * -1;
         int lastRow = halfColumns - 1;

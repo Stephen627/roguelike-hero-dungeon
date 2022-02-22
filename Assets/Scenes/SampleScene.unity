@@ -216,6 +216,7 @@ GameObject:
   m_Component:
   - component: {fileID: 600663178}
   - component: {fileID: 600663177}
+  - component: {fileID: 600663179}
   m_Layer: 0
   m_Name: Entry Room
   m_TagString: Untagged
@@ -235,8 +236,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e7e0c051de2b5839b3cdaf0289532c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columns: 14
-  rows: 10
+  columns:
+    max: 14
+    min: 14
+  rows:
+    max: 10
+    min: 10
   floorTiles:
   - {fileID: 4531501230387579706, guid: 500eb4cc4e9f429cdbaddeaff5096f13, type: 3}
   - {fileID: 7331779205697777861, guid: e5fa9481b39bb570281d0cacd0f3293d, type: 3}
@@ -259,12 +264,12 @@ MonoBehaviour:
   wallSideLeft: {fileID: 1138468554098622881, guid: 788b142580642e921be2c5420df1da3d, type: 3}
   wallSideRight: {fileID: 4283709137751744693, guid: 388cf58308dba5c59b7b8939fb7affa5, type: 3}
   door: {fileID: 3074302230070977013, guid: bf1e780da5ef48c67baecba08c3d9ab9, type: 3}
-  areDoorsOpen: 1
   doorLocations:
   - x: -0.5
     y: -5.5
   - x: -0.5
     y: 5.5
+  doors: []
 --- !u!4 &600663178
 Transform:
   m_ObjectHideFlags: 0
@@ -279,3 +284,16 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &600663179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600663176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d01ec83eabb96b36b4e38363d9e2ec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areDoorsOpen: 0
