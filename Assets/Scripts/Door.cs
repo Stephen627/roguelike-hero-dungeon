@@ -1,31 +1,37 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    public bool isOpen = true;
+    public bool showingOpenDoor = false;
     public Sprite openDoorSprite;
-    public Sprite closeDoorSprite;
-
-    public bool isDoorOpen = true;
-    public bool showingOpenDoor;
 
     private SpriteRenderer spriteRenderer;
+    private BoxCollider2D bc2d;
 
-    void Start()
+    private void Start()
     {
-        this.spriteRenderer = this.gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        this.spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        this.bc2d = this.gameObject.GetComponent<BoxCollider2D>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (!this.showingOpenDoor && isDoorOpen)
+        if (this.isOpen && !this.showingOpenDoor)
         {
             this.spriteRenderer.sprite = this.openDoorSprite;
+            this.bc2d.enabled = true;
             this.showingOpenDoor = true;
         }
-        if (this.showingOpenDoor && !isDoorOpen)
+
+        if (!this.isOpen && this.showingOpenDoor)
         {
-            this.spriteRenderer.sprite = this.closeDoorSprite;
+            this.spriteRenderer.sprite = null;
+            this.bc2d.enabled = false;
             this.showingOpenDoor = false;
         }
+
     }
 }

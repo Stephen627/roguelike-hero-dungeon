@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - SpawnPoint
   - Rooms
+  - Connection Point
   layers:
   - Default
   - TransparentFX
@@ -13,8 +13,8 @@ TagManager:
   - 
   - Water
   - UI
-  - Floor
-  - Wall
+  - 
+  - Blocking Layer
   - 
   - 
   - 
