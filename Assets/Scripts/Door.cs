@@ -21,15 +21,15 @@ public class Door : MonoBehaviour
     {
         if (this.isOpen && !this.showingOpenDoor)
         {
-            this.spriteRenderer.sprite = this.openDoorSprite;
-            this.bc2d.enabled = true;
+            this.spriteRenderer.sprite = null;
+            this.bc2d.enabled = false;
             this.showingOpenDoor = true;
         }
 
         if (!this.isOpen && this.showingOpenDoor)
         {
-            this.spriteRenderer.sprite = null;
-            this.bc2d.enabled = false;
+            this.spriteRenderer.sprite = this.openDoorSprite;
+            this.bc2d.enabled = true;
             this.showingOpenDoor = false;
         }
 
