@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -8,7 +9,10 @@ public class GameManager : MonoBehaviour
     public GameObject[] bottomRooms;
     public GameObject[] leftRooms;
     public GameObject[] rightRooms;
-    public GameObject[] terminatingRooms;
+    public GameObject topTerminatingRoom;
+    public GameObject bottomTerminatingRoom;
+    public GameObject leftTerminatingRoom;
+    public GameObject rightTerminatingRoom;
     public int maxDepth = 5;
     private List<GameObject> rooms;
 
@@ -21,7 +25,7 @@ public class GameManager : MonoBehaviour
         this.SpawnConnectingRooms(instance);
     }
 
-    private void SpawnConnectingRooms(GameObject room)
+    private void SpawnConnectingRooms(GameObject room, int depth = 1)
     {
         ConnectionPoint[] connectionPoints = room.GetComponentsInChildren<ConnectionPoint>();
 
@@ -37,29 +41,43 @@ public class GameManager : MonoBehaviour
                 Quaternion.identity
             );
             this.rooms.Add(instance);
+            Destroy(connectionPoint.gameObject);
         }
     }
 
     private GameObject FindAppropriateRoom(ConnectionPoint connectionPoint)
     {
-        GameObject[] rooms = {};
-        switch (connectionPoint.requiredOpeningDirection)
+        GameObject[] rooms = null;
+        
+        for (int i = 0; i < connectionPoint.requiredOpeningDirections.Count; i++)
         {
-            case ConnectionPoint.Direction.Top:
-                rooms = this.topRooms;
-                break;
-            case ConnectionPoint.Direction.Bottom:
-                rooms = this.bottomRooms;
-                break;
-            case ConnectionPoint.Direction.Left:
-                rooms = this.leftRooms;
-                break;
-            case ConnectionPoint.Direction.Right:
-                rooms = this.rightRooms;
-                break;
+            ConnectionPoint.Direction requiredDirection = connectionPoint.requiredOpeningDirections[i];
+            GameObject[] tmp = this.FindRoomsForDirection(requiredDirection);
+
+            if (rooms == null)
+                rooms = tmp;
+            else
+                rooms = rooms.Intersect(tmp).ToArray();
         }
 
         int rand = Random.Range(0, rooms.Length);
         return rooms[rand];
+    }
+
+    private GameObject[] FindRoomsForDirection(ConnectionPoint.Direction direction)
+    {
+        switch (direction)
+        {
+            case ConnectionPoint.Direction.Top:
+                return this.topRooms;
+            case ConnectionPoint.Direction.Bottom:
+                return this.bottomRooms;
+            case ConnectionPoint.Direction.Left:
+                return this.leftRooms;
+            case ConnectionPoint.Direction.Right:
+                return this.rightRooms;
+            default:
+                return this.topRooms; // This is impossible to reach
+        }
     }
 }
