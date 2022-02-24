@@ -17,6 +17,23 @@ public class ConnectionPoint : MonoBehaviour
     [HideInInspector]
     public bool dontDestory = false;
 
+    public Direction FindOppositeDirection(Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.Top:
+                return Direction.Bottom;
+            case Direction.Bottom:
+                return Direction.Top;
+            case Direction.Left:
+                return Direction.Right;
+            case Direction.Right:
+                return Direction.Left;
+            default:
+                return Direction.Top; // This case can't happen
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Connection Point")

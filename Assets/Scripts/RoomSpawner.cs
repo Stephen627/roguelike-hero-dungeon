@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 public class RoomSpawner : MonoBehaviour
@@ -27,11 +28,21 @@ public class RoomSpawner : MonoBehaviour
 
     private void SpawnConnectingRooms(GameObject room, int depth = 1)
     {
+        if (depth > this.maxDepth)
+        {
+            // Spawn terminating room
+            return;
+        }
+
         ConnectionPoint[] connectionPoints = room.GetComponentsInChildren<ConnectionPoint>();
 
         for (int i = 0; i < connectionPoints.Length; i++)
         {
             ConnectionPoint connectionPoint = connectionPoints[i];
+
+            if (!connectionPoint.enabled)
+                continue;
+
             Transform transform = connectionPoint.gameObject.transform;
             GameObject spawnRoom = this.FindAppropriateRoom(connectionPoint);
             
@@ -42,6 +53,32 @@ public class RoomSpawner : MonoBehaviour
             );
             this.rooms.Add(instance);
             Destroy(connectionPoint.gameObject);
+            this.CleanUpGeneratedRoom(instance, connectionPoint);
+
+            this.SpawnConnectingRooms(instance, ++depth);
+        }
+    }
+
+    private void CleanUpGeneratedRoom(GameObject room, ConnectionPoint fromConnectionPoint)
+    {
+        List<ConnectionPoint.Direction> toDelete = new List<ConnectionPoint.Direction>();
+        for (int i = 0; i < fromConnectionPoint.requiredOpeningDirections.Count; i++)
+        {
+            ConnectionPoint.Direction direction = fromConnectionPoint.requiredOpeningDirections[i];
+            toDelete.Add(fromConnectionPoint.FindOppositeDirection(direction));
+        }
+
+        ConnectionPoint[] connectionPoints = room.GetComponentsInChildren<ConnectionPoint>();
+        for (int i = 0; i < connectionPoints.Count(); i++)
+        {
+            ConnectionPoint connectionPoint = connectionPoints[i];
+            ConnectionPoint.Direction direction = connectionPoint.requiredOpeningDirections[0];
+
+            if (toDelete.Contains(direction))
+            {
+                connectionPoint.enabled = false;
+                connectionPoint.gameObject.SetActive(false);
+            }
         }
     }
 
