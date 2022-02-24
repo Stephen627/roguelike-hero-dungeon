@@ -272,12 +272,11 @@ MonoBehaviour:
   - {fileID: 390614552940176190, guid: 4fb26b09182c3fe9ab86dc357ecce006, type: 3}
   - {fileID: 3196363433514615912, guid: 777e6d39357369d26adf8f3e92b12c8e, type: 3}
   - {fileID: 118081200768424143, guid: dcc98bbf3b9a5ece0ad0dfe5a57e5f87, type: 3}
-  terminatingRooms:
-  - {fileID: 1380581595744163188, guid: 5944e526426caf3d6aa7eb3110f6e4f3, type: 3}
-  - {fileID: 4308989212605654833, guid: 919873391a2bff98fad4c31bb2a2170f, type: 3}
-  - {fileID: 9166312355502909548, guid: c8a3fc38cfae46ee1b45d7d612bfdd54, type: 3}
-  - {fileID: 5693485680695116710, guid: 5fd98217b63331d8581635814ef28180, type: 3}
-  maxDepth: 5
+  topTerminatingRoom: {fileID: 4308989212605654833, guid: 919873391a2bff98fad4c31bb2a2170f, type: 3}
+  bottomTerminatingRoom: {fileID: 1380581595744163188, guid: 5944e526426caf3d6aa7eb3110f6e4f3, type: 3}
+  leftTerminatingRoom: {fileID: 9166312355502909548, guid: c8a3fc38cfae46ee1b45d7d612bfdd54, type: 3}
+  rightTerminatingRoom: {fileID: 5693485680695116710, guid: 5fd98217b63331d8581635814ef28180, type: 3}
+  maxDepth: 2
 --- !u!4 &1553904832
 Transform:
   m_ObjectHideFlags: 0

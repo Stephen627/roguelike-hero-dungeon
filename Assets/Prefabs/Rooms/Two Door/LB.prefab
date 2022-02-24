@@ -1028,6 +1028,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Connection Point (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 7936950730774246427, guid: 1a29035d09d965c709a99650283cf8a5, type: 3}
+      propertyPath: requiredOpeningDirections.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1a29035d09d965c709a99650283cf8a5, type: 3}
 --- !u!4 &50555309781292209 stripped
@@ -2770,6 +2774,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7936950730774246427, guid: 1a29035d09d965c709a99650283cf8a5, type: 3}
       propertyPath: requiredOpeningDirection
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936950730774246427, guid: 1a29035d09d965c709a99650283cf8a5, type: 3}
+      propertyPath: requiredOpeningDirections.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7936950730774246427, guid: 1a29035d09d965c709a99650283cf8a5, type: 3}
+      propertyPath: requiredOpeningDirections.Array.data[0]
       value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
