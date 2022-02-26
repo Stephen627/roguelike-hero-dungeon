@@ -303,4 +303,7 @@ MonoBehaviour:
   bottomTerminatingRoom: {fileID: 1380581595744163188, guid: 5944e526426caf3d6aa7eb3110f6e4f3, type: 3}
   leftTerminatingRoom: {fileID: 9166312355502909548, guid: c8a3fc38cfae46ee1b45d7d612bfdd54, type: 3}
   rightTerminatingRoom: {fileID: 5693485680695116710, guid: 5fd98217b63331d8581635814ef28180, type: 3}
-  maxDepth: 3
+  maxDepth: 5
+  roomLayer:
+    serializedVersion: 2
+    m_Bits: 2147483648

@@ -15,8 +15,9 @@ public class RoomSpawner : MonoBehaviour
     public GameObject leftTerminatingRoom;
     public GameObject rightTerminatingRoom;
     public int maxDepth = 5;
+    public LayerMask roomLayer;
     private List<GameObject> rooms;
-    
+
     public void Spawn()
     {
         this.rooms = new List<GameObject>();
@@ -45,6 +46,9 @@ public class RoomSpawner : MonoBehaviour
 
             Transform transform = connectionPoint.gameObject.transform;
             GameObject spawnRoom = this.FindAppropriateRoom(connectionPoint);
+
+            if (spawnRoom == null)
+                continue;
             
             GameObject instance = Instantiate(
                 spawnRoom,
@@ -52,8 +56,10 @@ public class RoomSpawner : MonoBehaviour
                 Quaternion.identity
             );
             this.rooms.Add(instance);
-            Destroy(connectionPoint.gameObject);
-            this.CleanUpGeneratedRoom(instance, connectionPoint);
+            //Destroy(connectionPoint.gameObject);
+            //this.CleanUpGeneratedRoom(instance, connectionPoint);
+            connectionPoint.enabled = false;
+            //connectionPoint.gameObject.SetActive(false);
 
             this.SpawnConnectingRooms(instance, ++depth);
         }
@@ -62,9 +68,10 @@ public class RoomSpawner : MonoBehaviour
     private void CleanUpGeneratedRoom(GameObject room, ConnectionPoint fromConnectionPoint)
     {
         List<ConnectionPoint.Direction> toDelete = new List<ConnectionPoint.Direction>();
-        for (int i = 0; i < fromConnectionPoint.requiredOpeningDirections.Count; i++)
+        List<ConnectionPoint.Direction> fromRequiredOpeningDirections = fromConnectionPoint.GetRequiredOpenings(this.roomLayer);
+        for (int i = 0; i < fromRequiredOpeningDirections.Count; i++)
         {
-            ConnectionPoint.Direction direction = fromConnectionPoint.requiredOpeningDirections[i];
+            ConnectionPoint.Direction direction = fromRequiredOpeningDirections[i];
             toDelete.Add(fromConnectionPoint.FindOppositeDirection(direction));
         }
 
@@ -72,12 +79,17 @@ public class RoomSpawner : MonoBehaviour
         for (int i = 0; i < connectionPoints.Count(); i++)
         {
             ConnectionPoint connectionPoint = connectionPoints[i];
-            ConnectionPoint.Direction direction = connectionPoint.requiredOpeningDirections[0];
+            List<ConnectionPoint.Direction> requiredOpeningDirections = connectionPoint.GetRequiredOpenings(this.roomLayer);
 
-            if (toDelete.Contains(direction))
+            for (int j = 0; j < requiredOpeningDirections.Count; j++)
             {
-                connectionPoint.enabled = false;
-                connectionPoint.gameObject.SetActive(false);
+                ConnectionPoint.Direction direction = requiredOpeningDirections[j];
+
+                if (toDelete.Contains(direction))
+                {
+                    connectionPoint.enabled = false;
+                    connectionPoint.gameObject.SetActive(false);
+                }
             }
         }
     }
@@ -85,10 +97,14 @@ public class RoomSpawner : MonoBehaviour
     private GameObject FindAppropriateRoom(ConnectionPoint connectionPoint)
     {
         GameObject[] rooms = null;
+        List<ConnectionPoint.Direction> requiredOpeningDirections = connectionPoint.GetRequiredOpenings(this.roomLayer);
+
+        if (requiredOpeningDirections.Count == 0)
+            return null;
         
-        for (int i = 0; i < connectionPoint.requiredOpeningDirections.Count; i++)
+        for (int i = 0; i < requiredOpeningDirections.Count; i++)
         {
-            ConnectionPoint.Direction requiredDirection = connectionPoint.requiredOpeningDirections[i];
+            ConnectionPoint.Direction requiredDirection = requiredOpeningDirections[i];
             GameObject[] tmp = this.FindRoomsForDirection(requiredDirection);
 
             if (rooms == null)

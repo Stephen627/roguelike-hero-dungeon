@@ -13,7 +13,6 @@ public class ConnectionPoint : MonoBehaviour
         Right,
     }
 
-    public List<Direction> requiredOpeningDirections;
     [HideInInspector]
     public bool dontDestory = false;
 
@@ -34,6 +33,41 @@ public class ConnectionPoint : MonoBehaviour
         }
     }
 
+    public List<ConnectionPoint.Direction> GetRequiredOpenings(int roomLayer)
+    {
+        List<ConnectionPoint.Direction> requireDirections = new List<ConnectionPoint.Direction>();
+
+        if (this.RoomAtLocation(Vector2.up, roomLayer))
+            requireDirections.Add(ConnectionPoint.Direction.Top);
+
+        if (this.RoomAtLocation(Vector2.down, roomLayer))
+            requireDirections.Add(ConnectionPoint.Direction.Bottom);
+            
+        if (this.RoomAtLocation(Vector2.left, roomLayer))
+            requireDirections.Add(ConnectionPoint.Direction.Left);
+
+        if (this.RoomAtLocation(Vector2.right, roomLayer))
+            requireDirections.Add(ConnectionPoint.Direction.Right);
+
+        return requireDirections;
+    }
+
+    private bool RoomAtLocation(Vector2 direction, int roomLayer)
+    {
+        this.gameObject.SetActive(false);
+        RaycastHit2D hit = Physics2D.Raycast(
+            this.transform.position,
+            direction,
+            10
+        );
+        this.gameObject.SetActive(true);
+
+        if (hit.collider == null)
+            return false;
+
+        return hit.collider.gameObject.tag == "Door";
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Connection Point")
@@ -42,9 +76,10 @@ public class ConnectionPoint : MonoBehaviour
             if (!otherConnectionPoint.dontDestory)
             {
                 this.dontDestory = true;
-                this.requiredOpeningDirections.AddRange(otherConnectionPoint.requiredOpeningDirections);
                 Destroy(other.gameObject);
             }
         }
+        if (other.tag == "Room")
+            Destroy(this.gameObject);
     }
 }

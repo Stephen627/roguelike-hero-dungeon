@@ -11,11 +11,10 @@ GameObject:
   - component: {fileID: 7458026093098053849}
   - component: {fileID: 7227974888272588710}
   - component: {fileID: 7661085377090184164}
-  - component: {fileID: 8997421096033685939}
-  m_Layer: 0
-  m_Name: Destroyer
-  m_TagString: Untagged
-  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_Layer: 31
+  m_Name: Room Center
+  m_TagString: Room
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -80,15 +79,3 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &8997421096033685939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3111269227256184741}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e565a09344ce2fe898eb47e92d73b6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
