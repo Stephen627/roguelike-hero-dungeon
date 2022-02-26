@@ -16,8 +16,8 @@ public class RoomSpawner : MonoBehaviour
     public GameObject rightTerminatingRoom;
     public int maxDepth = 5;
     private List<GameObject> rooms;
-
-    private void Start()
+    
+    public void Spawn()
     {
         this.rooms = new List<GameObject>();
         GameObject instance = Instantiate(this.entryRoom, new Vector3(0, 0, 0), Quaternion.identity);
