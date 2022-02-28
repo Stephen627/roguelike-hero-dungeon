@@ -68,7 +68,9 @@ public class RoomSpawner : MonoBehaviour
     private void CleanUpGeneratedRoom(GameObject room, ConnectionPoint fromConnectionPoint)
     {
         List<ConnectionPoint.Direction> toDelete = new List<ConnectionPoint.Direction>();
-        List<ConnectionPoint.Direction> fromRequiredOpeningDirections = fromConnectionPoint.GetRequiredOpenings(this.roomLayer);
+        ConnectionPoint.DirectionResult fromOpenings = fromConnectionPoint.GetRequiredOpenings(this.roomLayer);
+        List<ConnectionPoint.Direction> fromRequiredOpeningDirections = fromOpenings.requiredDirections;
+
         for (int i = 0; i < fromRequiredOpeningDirections.Count; i++)
         {
             ConnectionPoint.Direction direction = fromRequiredOpeningDirections[i];
@@ -79,7 +81,8 @@ public class RoomSpawner : MonoBehaviour
         for (int i = 0; i < connectionPoints.Count(); i++)
         {
             ConnectionPoint connectionPoint = connectionPoints[i];
-            List<ConnectionPoint.Direction> requiredOpeningDirections = connectionPoint.GetRequiredOpenings(this.roomLayer);
+            ConnectionPoint.DirectionResult openings = connectionPoint.GetRequiredOpenings(this.roomLayer);
+            List<ConnectionPoint.Direction> requiredOpeningDirections = openings.requiredDirections;
 
             for (int j = 0; j < requiredOpeningDirections.Count; j++)
             {
@@ -97,7 +100,8 @@ public class RoomSpawner : MonoBehaviour
     private GameObject FindAppropriateRoom(ConnectionPoint connectionPoint)
     {
         GameObject[] rooms = null;
-        List<ConnectionPoint.Direction> requiredOpeningDirections = connectionPoint.GetRequiredOpenings(this.roomLayer);
+        ConnectionPoint.DirectionResult openings = connectionPoint.GetRequiredOpenings(this.roomLayer);
+        List<ConnectionPoint.Direction> requiredOpeningDirections = openings.requiredDirections;
 
         if (requiredOpeningDirections.Count == 0)
             return null;

@@ -21,6 +21,19 @@ public class ConnectionPoint : MonoBehaviour
         None,
     }
 
+    [Serializable]
+    public class DirectionResult
+    {
+        public readonly List<Direction> requiredDirections;
+        public readonly List<Direction> closedDirections;
+
+        public DirectionResult(List<Direction> requiredDirections, List<Direction> closedDirections)
+        {
+            this.requiredDirections = requiredDirections;
+            this.closedDirections = closedDirections;
+        }
+    }
+
     [HideInInspector]
     public bool dontDestory = false;
 
@@ -41,23 +54,40 @@ public class ConnectionPoint : MonoBehaviour
         }
     }
 
-    public List<ConnectionPoint.Direction> GetRequiredOpenings(int roomLayer)
+    public DirectionResult GetRequiredOpenings(int roomLayer)
     {
-        List<ConnectionPoint.Direction> requireDirections = new List<ConnectionPoint.Direction>();
+        List<ConnectionPoint.Direction> requiredDirections = new List<ConnectionPoint.Direction>();
+        List<ConnectionPoint.Direction> closedDirections = new List<ConnectionPoint.Direction>();
 
-        if (this.RoomAtLocation(Vector2.up, roomLayer) == DirectionOption.Required)
-            requireDirections.Add(ConnectionPoint.Direction.Top);
+        DirectionOption topResult = this.RoomAtLocation(Vector2.up, roomLayer);
+        DirectionOption bottomResult = this.RoomAtLocation(Vector2.down, roomLayer);
+        DirectionOption leftResult = this.RoomAtLocation(Vector2.left, roomLayer);
+        DirectionOption rightResult = this.RoomAtLocation(Vector2.right, roomLayer);
 
-        if (this.RoomAtLocation(Vector2.down, roomLayer) == DirectionOption.Required)
-            requireDirections.Add(ConnectionPoint.Direction.Bottom);
+        if (topResult == DirectionOption.Required)
+            requiredDirections.Add(ConnectionPoint.Direction.Top);
+        else if (topResult == DirectionOption.Closed)
+            closedDirections.Add(ConnectionPoint.Direction.Top);
+
+        if (bottomResult == DirectionOption.Required)
+            requiredDirections.Add(ConnectionPoint.Direction.Bottom);
+        else if (bottomResult == DirectionOption.Closed)
+            closedDirections.Add(ConnectionPoint.Direction.Bottom);
             
-        if (this.RoomAtLocation(Vector2.left, roomLayer) == DirectionOption.Required)
-            requireDirections.Add(ConnectionPoint.Direction.Left);
+        if (leftResult == DirectionOption.Required)
+            requiredDirections.Add(ConnectionPoint.Direction.Left);
+        else if (leftResult == DirectionOption.Closed)
+            closedDirections.Add(ConnectionPoint.Direction.Left);
 
-        if (this.RoomAtLocation(Vector2.right, roomLayer) == DirectionOption.Required)
-            requireDirections.Add(ConnectionPoint.Direction.Right);
+        if (rightResult == DirectionOption.Required)
+            requiredDirections.Add(ConnectionPoint.Direction.Right);
+        else if (rightResult == DirectionOption.Closed)
+            closedDirections.Add(ConnectionPoint.Direction.Right);
 
-        return requireDirections;
+        return new DirectionResult(
+            requiredDirections,
+            closedDirections
+        );
     }
 
     private DirectionOption RoomAtLocation(Vector2 direction, int roomLayer)
