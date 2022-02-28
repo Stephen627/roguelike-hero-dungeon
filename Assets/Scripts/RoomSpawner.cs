@@ -117,6 +117,10 @@ public class RoomSpawner : MonoBehaviour
                 rooms = rooms.Intersect(tmp).ToArray();
         }
 
+        /*
+            NOTE: remove all rooms that have a path to a closed direction
+        */
+
         int rand = Random.Range(0, rooms.Length);
         return rooms[rand];
     }
