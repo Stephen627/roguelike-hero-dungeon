@@ -102,6 +102,7 @@ public class RoomSpawner : MonoBehaviour
         GameObject[] rooms = null;
         ConnectionPoint.DirectionResult openings = connectionPoint.GetRequiredOpenings(this.roomLayer);
         List<ConnectionPoint.Direction> requiredOpeningDirections = openings.requiredDirections;
+        List<ConnectionPoint.Direction> closedDirections = openings.closedDirections;
 
         if (requiredOpeningDirections.Count == 0)
             return null;
@@ -117,9 +118,13 @@ public class RoomSpawner : MonoBehaviour
                 rooms = rooms.Intersect(tmp).ToArray();
         }
 
-        /*
-            NOTE: remove all rooms that have a path to a closed direction
-        */
+        for (int i = 0; i < closedDirections.Count; i++)
+        {
+            ConnectionPoint.Direction closedDirection = closedDirections[i];
+            GameObject[] tmp = this.FindRoomsForDirection(closedDirection);
+
+            rooms = rooms.Except(tmp).ToArray();
+        }
 
         int rand = Random.Range(0, rooms.Length);
         return rooms[rand];
