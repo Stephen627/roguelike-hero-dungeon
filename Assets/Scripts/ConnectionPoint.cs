@@ -7,10 +7,10 @@ public class ConnectionPoint : MonoBehaviour
     [Serializable]
     public enum Direction
     {
-        Top,
-        Bottom,
-        Left,
-        Right,
+        Top = 't',
+        Bottom = 'b',
+        Left = 'l',
+        Right = 'r',
     }
 
     [Serializable]
@@ -54,15 +54,15 @@ public class ConnectionPoint : MonoBehaviour
         }
     }
 
-    public DirectionResult GetRequiredOpenings(int roomLayer)
+    public DirectionResult GetRequiredOpenings()
     {
         List<ConnectionPoint.Direction> requiredDirections = new List<ConnectionPoint.Direction>();
         List<ConnectionPoint.Direction> closedDirections = new List<ConnectionPoint.Direction>();
 
-        DirectionOption topResult = this.RoomAtLocation(Vector2.up, roomLayer);
-        DirectionOption bottomResult = this.RoomAtLocation(Vector2.down, roomLayer);
-        DirectionOption leftResult = this.RoomAtLocation(Vector2.left, roomLayer);
-        DirectionOption rightResult = this.RoomAtLocation(Vector2.right, roomLayer);
+        DirectionOption topResult = this.RoomAtLocation(Vector2.up);
+        DirectionOption bottomResult = this.RoomAtLocation(Vector2.down);
+        DirectionOption leftResult = this.RoomAtLocation(Vector2.left);
+        DirectionOption rightResult = this.RoomAtLocation(Vector2.right);
 
         if (topResult == DirectionOption.Required)
             requiredDirections.Add(ConnectionPoint.Direction.Top);
@@ -90,7 +90,7 @@ public class ConnectionPoint : MonoBehaviour
         );
     }
 
-    private DirectionOption RoomAtLocation(Vector2 direction, int roomLayer)
+    private DirectionOption RoomAtLocation(Vector2 direction)
     {
         this.gameObject.SetActive(false);
         RaycastHit2D hit = Physics2D.Raycast(

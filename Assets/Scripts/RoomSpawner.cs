@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RoomSpawner : MonoBehaviour
 {
@@ -10,10 +11,7 @@ public class RoomSpawner : MonoBehaviour
     public GameObject[] bottomRooms;
     public GameObject[] leftRooms;
     public GameObject[] rightRooms;
-    public GameObject topTerminatingRoom;
-    public GameObject bottomTerminatingRoom;
-    public GameObject leftTerminatingRoom;
-    public GameObject rightTerminatingRoom;
+    public GameObject[] allRooms;
     public int maxDepth = 5;
     public LayerMask roomLayer;
     private List<GameObject> rooms;
@@ -29,12 +27,6 @@ public class RoomSpawner : MonoBehaviour
 
     private void SpawnConnectingRooms(GameObject room, int depth = 1)
     {
-        if (depth > this.maxDepth)
-        {
-            // Spawn terminating room
-            return;
-        }
-
         ConnectionPoint[] connectionPoints = room.GetComponentsInChildren<ConnectionPoint>();
 
         for (int i = 0; i < connectionPoints.Length; i++)
@@ -45,7 +37,13 @@ public class RoomSpawner : MonoBehaviour
                 continue;
 
             Transform transform = connectionPoint.gameObject.transform;
-            GameObject spawnRoom = this.FindAppropriateRoom(connectionPoint);
+            GameObject spawnRoom = null;
+            bool atMaxDepth = depth > this.maxDepth;
+            
+            if (atMaxDepth)
+                spawnRoom = this.FindTerminatingRoom(connectionPoint);
+            else
+                spawnRoom = this.FindAppropriateRoom(connectionPoint);
 
             if (spawnRoom == null)
                 continue;
@@ -58,14 +56,46 @@ public class RoomSpawner : MonoBehaviour
             this.rooms.Add(instance);
             connectionPoint.enabled = false;
 
-            this.SpawnConnectingRooms(instance, ++depth);
+            if (!atMaxDepth)
+                this.SpawnConnectingRooms(instance, ++depth);
         }
+    }
+
+    private GameObject FindTerminatingRoom(ConnectionPoint connectionPoint)
+    {
+        ConnectionPoint.DirectionResult openings = connectionPoint.GetRequiredOpenings();
+        List<string> roomNameArray = new List<string>();
+        string[] roomNameOrder = { "L", "R", "T", "B" };
+        for (int i = 0; i < openings.requiredDirections.Count; i++)
+        {
+            switch (openings.requiredDirections[i])
+            {
+                case ConnectionPoint.Direction.Top:
+                    roomNameArray.Add("T");
+                    break;
+                case ConnectionPoint.Direction.Bottom:
+                    roomNameArray.Add("B");
+                    break;
+                case ConnectionPoint.Direction.Left:
+                    roomNameArray.Add("L");
+                    break;
+                case ConnectionPoint.Direction.Right:
+                    roomNameArray.Add("R");
+                    break;
+            }
+        }
+        roomNameArray.Sort(delegate (string a, string b) {
+            return Array.IndexOf(roomNameOrder, a) > Array.IndexOf(roomNameOrder, b) ? 1 : -1;
+        });
+        string roomName = String.Join("", roomNameArray);
+
+        return this.allRooms.FirstOrDefault(room => room.name == roomName);
     }
 
     private GameObject FindAppropriateRoom(ConnectionPoint connectionPoint)
     {
         GameObject[] rooms = null;
-        ConnectionPoint.DirectionResult openings = connectionPoint.GetRequiredOpenings(this.roomLayer);
+        ConnectionPoint.DirectionResult openings = connectionPoint.GetRequiredOpenings();
         List<ConnectionPoint.Direction> requiredOpeningDirections = openings.requiredDirections;
         List<ConnectionPoint.Direction> closedDirections = openings.closedDirections;
 
