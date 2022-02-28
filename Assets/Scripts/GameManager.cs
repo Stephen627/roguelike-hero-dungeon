@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
    private void StartRoomGeneration()
    {
-       RoomSpawner roomSpawner = this.gameObject.GetComponent<RoomSpawner>();
+       Dungeon.RoomSpawner roomSpawner = this.gameObject.GetComponent<Dungeon.RoomSpawner>();
        roomSpawner.Spawn();
    }
 }
