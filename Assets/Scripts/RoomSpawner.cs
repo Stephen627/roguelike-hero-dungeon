@@ -56,44 +56,9 @@ public class RoomSpawner : MonoBehaviour
                 Quaternion.identity
             );
             this.rooms.Add(instance);
-            //Destroy(connectionPoint.gameObject);
-            //this.CleanUpGeneratedRoom(instance, connectionPoint);
             connectionPoint.enabled = false;
-            //connectionPoint.gameObject.SetActive(false);
 
             this.SpawnConnectingRooms(instance, ++depth);
-        }
-    }
-
-    private void CleanUpGeneratedRoom(GameObject room, ConnectionPoint fromConnectionPoint)
-    {
-        List<ConnectionPoint.Direction> toDelete = new List<ConnectionPoint.Direction>();
-        ConnectionPoint.DirectionResult fromOpenings = fromConnectionPoint.GetRequiredOpenings(this.roomLayer);
-        List<ConnectionPoint.Direction> fromRequiredOpeningDirections = fromOpenings.requiredDirections;
-
-        for (int i = 0; i < fromRequiredOpeningDirections.Count; i++)
-        {
-            ConnectionPoint.Direction direction = fromRequiredOpeningDirections[i];
-            toDelete.Add(fromConnectionPoint.FindOppositeDirection(direction));
-        }
-
-        ConnectionPoint[] connectionPoints = room.GetComponentsInChildren<ConnectionPoint>();
-        for (int i = 0; i < connectionPoints.Count(); i++)
-        {
-            ConnectionPoint connectionPoint = connectionPoints[i];
-            ConnectionPoint.DirectionResult openings = connectionPoint.GetRequiredOpenings(this.roomLayer);
-            List<ConnectionPoint.Direction> requiredOpeningDirections = openings.requiredDirections;
-
-            for (int j = 0; j < requiredOpeningDirections.Count; j++)
-            {
-                ConnectionPoint.Direction direction = requiredOpeningDirections[j];
-
-                if (toDelete.Contains(direction))
-                {
-                    connectionPoint.enabled = false;
-                    connectionPoint.gameObject.SetActive(false);
-                }
-            }
         }
     }
 
