@@ -13,6 +13,14 @@ public class ConnectionPoint : MonoBehaviour
         Right,
     }
 
+    [Serializable]
+    public enum DirectionOption
+    {
+        Required,
+        Closed,
+        None,
+    }
+
     [HideInInspector]
     public bool dontDestory = false;
 
@@ -37,22 +45,22 @@ public class ConnectionPoint : MonoBehaviour
     {
         List<ConnectionPoint.Direction> requireDirections = new List<ConnectionPoint.Direction>();
 
-        if (this.RoomAtLocation(Vector2.up, roomLayer))
+        if (this.RoomAtLocation(Vector2.up, roomLayer) == DirectionOption.Required)
             requireDirections.Add(ConnectionPoint.Direction.Top);
 
-        if (this.RoomAtLocation(Vector2.down, roomLayer))
+        if (this.RoomAtLocation(Vector2.down, roomLayer) == DirectionOption.Required)
             requireDirections.Add(ConnectionPoint.Direction.Bottom);
             
-        if (this.RoomAtLocation(Vector2.left, roomLayer))
+        if (this.RoomAtLocation(Vector2.left, roomLayer) == DirectionOption.Required)
             requireDirections.Add(ConnectionPoint.Direction.Left);
 
-        if (this.RoomAtLocation(Vector2.right, roomLayer))
+        if (this.RoomAtLocation(Vector2.right, roomLayer) == DirectionOption.Required)
             requireDirections.Add(ConnectionPoint.Direction.Right);
 
         return requireDirections;
     }
 
-    private bool RoomAtLocation(Vector2 direction, int roomLayer)
+    private DirectionOption RoomAtLocation(Vector2 direction, int roomLayer)
     {
         this.gameObject.SetActive(false);
         RaycastHit2D hit = Physics2D.Raycast(
@@ -63,9 +71,15 @@ public class ConnectionPoint : MonoBehaviour
         this.gameObject.SetActive(true);
 
         if (hit.collider == null)
-            return false;
+            return DirectionOption.None;
 
-        return hit.collider.gameObject.tag == "Door";
+        if (hit.collider.gameObject.tag == "Door")
+            return DirectionOption.Required;
+        
+        if (hit.collider.gameObject.tag == "Wall")
+            return DirectionOption.Closed;
+
+        return DirectionOption.None;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
