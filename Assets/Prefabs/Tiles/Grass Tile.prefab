@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1014572994259023232, guid: eacf64eb368203cad89042f927d9fc85, type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014572994259023232, guid: eacf64eb368203cad89042f927d9fc85, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 51558479
+      objectReference: {fileID: 0}
     - target: {fileID: 3357441809635956425, guid: eacf64eb368203cad89042f927d9fc85, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -84,7 +92,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a5215d3e84e27029c6ed998a62b1db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseColor: {r: 0.4392157, g: 0.7411765, b: 0.36862746, a: 1}
-  offsetColor: {r: 0.4, g: 0.6901961, b: 0.33333334, a: 1}
+  TileName: Grasslands
   spriteRenderer: {fileID: 4346359930973166874}
   highlight: {fileID: 3595881826556474886}
+  isWalkable: 1
+  OccupiedUnit: {fileID: 0}
+  baseColor: {r: 0.4392157, g: 0.7411765, b: 0.36862746, a: 1}
+  offsetColor: {r: 0.4, g: 0.6901961, b: 0.33333334, a: 1}

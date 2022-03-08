@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour {
@@ -31,6 +32,20 @@ public class GridManager : MonoBehaviour {
         }
 
         this.mainCamera.position = new Vector3((float) this.width / 2 - 0.5f, (float) this.height / 2 - 0.5f, -10);
+    }
+
+    public Tile GetHeroSpawnTile() {
+        return this.tiles.Where(t => t.Key.x < this.width / 2 && t.Value.Walkable)
+            .OrderBy(o => Random.value)
+            .First()
+            .Value;
+    }
+
+    public Tile GetEnemySpawnTile() {
+        return this.tiles.Where(t => t.Key.x > this.width / 2 && t.Value.Walkable)
+            .OrderBy(o => Random.value)
+            .First()
+            .Value;
     }
 
     public Tile GetTileAtPosition(Vector2 position) {
