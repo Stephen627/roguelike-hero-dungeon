@@ -8,7 +8,8 @@
 - Items to boost the stats of the heroes
   - An item will apply to an individual hero not all of them
 - Earn a random item at the end of a stage and earn money by defeating enemies
-- Shop to spawn at the end of each stage where you can buy items from a selection
+- Player gets a choice of what item they are rewarded with next at the end of the stage
+  - The player will get the option to choose a shop as part of these
 - Heroes will have 5 unique moves
   - General split of moves, although some heroes will be different
     - 3 that are focused around damage
@@ -26,9 +27,12 @@
 
 
 ## Hero Ideas
-- Rogue
-- Warrior
-- Mage
+Not all heroes will be unlocked at the beginning but the player will have to do certain actions to unlock them.
+Starting heroes are marked with an asterisk
+
+- Rogue*
+- Warrior*
+- Mage*
 - Knight
 - Necromancer
 - Potion Man
