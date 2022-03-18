@@ -77,3 +77,6 @@ For example, doubles the damage but halfs the health or removes all healing affe
 
 ### Curses
 Get a permenant debuff, but when the curse is lifted get a powerful buff
+
+## Rest Mechanic
+Between stages the player should be given the option to rest. Resting will fully heal the party. As a punishment for healing the game difficulty should be increased, by increasing the turn counter by a set amount. Maybe further into a run this amount of increase, 10% of turns already taken.
