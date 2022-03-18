@@ -45,17 +45,31 @@ Starting heroes are marked with an asterisk
 
 ## Buffs and Debuffs
 ### Buffs
+- Healing per turn
+- Movement speed
+- Defence
+- Damage
+- Invisible
+- Taunt
 
 ### Debuffs
+- Bleed
+- Burn
+- Frozen
+- Poison
+- Blind
+- Rage
+- Slow
 
 ## Items
 ### Common
-
-### Uncommon
+Slightly improve base stats
 
 ### Rare
+Significantly effect the gameplay, things like adding more splash damage or chance to mirror damage to a random enemy.
 
 ### Legendary
+Heavily effect the way the character is played. Very low drop rate and should be run defining
 
 ### Items with a downside
 Amazing items with a downside that changes the play style of the player.
