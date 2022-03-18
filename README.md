@@ -37,6 +37,7 @@
 - Monk
 - Blood magic user (can use health to power up the attacks)
   - Maybe have a melee based one of these too
+- Druid
 
 ## Buffs and Debuffs
 ### Buffs
