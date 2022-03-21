@@ -31,6 +31,7 @@ Not all heroes will be unlocked at the beginning but the player will have to do 
 Starting heroes are marked with an asterisk
 
 - Rogue*
+  - Produce a fog that enemies are unable to look through
 - Warrior*
 - Mage*
 - Knight
