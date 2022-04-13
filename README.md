@@ -16,10 +16,11 @@
     - 1 for movement
     - 1 for utility
   - Maybe include a range of moves that a hero can have and the player can choose between them
-- An entity has 2 actions per turn
+- An entity has a number of actions points per turn (this can vary on the class and other boosts from items, etc.)
   - This may change per entity
-  - moving is 1 action
-  - using an ability can range between 0 and 2 actions
+  - moving is 1 action per square
+  - using an ability can range from 0 to any amount of action points
+    - more powerful abilities will cost more action points
 - Implement line sight
   - Bushes, rocks, etc. will break line of sight
   - Ranged attacks will not be able to hit without line of sight
