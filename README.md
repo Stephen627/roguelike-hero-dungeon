@@ -26,6 +26,18 @@
   - Ranged attacks will not be able to hit without line of sight
   - Entities will not be allowed to pass through obstacles
 
+## Base Stats
+
+- Strength
+  - Hit harder with melee weapons that require force (Axe, Hammer, etc.)
+- Dexterity
+  - Hit harder with melee weapons that are more skillful (Rapier, Dagger, etc.)
+- Intelligence
+  - Spell damage
+- Faith
+  - Healing and other faith based spells
+- Action Points
+  - The amount of action points per turn
 
 ## Hero Ideas
 Not all heroes will be unlocked at the beginning but the player will have to do certain actions to unlock them.
