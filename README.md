@@ -25,6 +25,9 @@
   - Bushes, rocks, etc. will break line of sight
   - Ranged attacks will not be able to hit without line of sight
   - Entities will not be allowed to pass through obstacles
+- Enemies will telegraph their attacks the for next turn, giving a player that is observing the enemies a chance to avoid attacks or prepare for them
+  - For example, a melee based enemy might point their sword at the next target and they will charge at them the next turn
+  - or as a magic user, they will start producing a small flame before throwing a fireball
 
 ## Base Stats
 
