@@ -28,6 +28,8 @@
 - Enemies will telegraph their attacks the for next turn, giving a player that is observing the enemies a chance to avoid attacks or prepare for them
   - For example, a melee based enemy might point their sword at the next target and they will charge at them the next turn
   - or as a magic user, they will start producing a small flame before throwing a fireball
+- This might make the enemies feel like they are no longer responding to you, so maybe certain actions will break the determined next turn action
+  - For example, if the melee attacker has determined they are attacking a certain player character next turn and another attacks them first. The enemy action can change.
 
 ## Base Stats
 
