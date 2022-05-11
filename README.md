@@ -3,6 +3,9 @@
 ## Base Gameplay
 - Team of 3 heroes
 - Turn based combat
+- You can defend with a timing based mini-game to avoid the damage
+  - Defending will use a lot of action points and end your turn
+  - The main purpose of this will be to avoid the main damage dealing attacks no all attacks
 - Setup stage where you can place your heroes on the borad without knowing where the enemy will spawn
 - The longer it takes for you to complete a stage the harder the game will become
 - Items to boost the stats of the heroes
