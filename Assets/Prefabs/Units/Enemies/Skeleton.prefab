@@ -102,6 +102,7 @@ MonoBehaviour:
   ActionPoints: 5
   MaxHealthPoints: 5
   HealthBar: {fileID: 8427358379160998202}
+  Damage: 1
 --- !u!1001 &2259682873174143922
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -26,11 +26,17 @@ public class Tile : MonoBehaviour {
     private void OnMouseEnter() {
         this.highlight.SetActive(true);
         MenuManager.Instance.ShowTileInfo(this);
+        if (this.OccupiedUnit) {
+            this.OccupiedUnit.ShowHealth(true);
+        }
     }
 
     private void OnMouseExit() {
         this.highlight.SetActive(false);
         MenuManager.Instance.ShowTileInfo(null);
+        if (this.OccupiedUnit) {
+            this.OccupiedUnit.ShowHealth(false);
+        }
     }
 
     private void OnMouseDown() {
@@ -42,9 +48,7 @@ public class Tile : MonoBehaviour {
             else {
                 if (UnitManager.Instance.SelectedHero != null) {
                     BaseEnemy enemy = (BaseEnemy) this.OccupiedUnit;
-                    Destroy(enemy.gameObject);
-
-                    UnitManager.Instance.SetSelectedHero(null);
+                    enemy.TakeDamage(UnitManager.Instance.SelectedHero.Damage);
                 }
             }
         } else {

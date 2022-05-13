@@ -21,6 +21,11 @@ public class HealthBar : MonoBehaviour
             this.Slider.normalizedValue
         );
     }
+
+    void Start()
+    {
+        this.gameObject.SetActive(false);
+    }
     
     void Update()
     {
