@@ -6,11 +6,12 @@ public class BaseUnit : MonoBehaviour {
     public string UnitName;
     public Tile OccupiedTile;
     public Faction Faction;
-    public int ActionPoints;
+    public int MaxActionPoints;
     public float MaxHealthPoints;
     public HealthBar HealthBar;
     public float Damage;
     private float CurrentHealthPoints;
+    private int CurrentActionPoints;
 
     public void TakeDamage(float damage)
     {
@@ -19,6 +20,11 @@ public class BaseUnit : MonoBehaviour {
         if (this.CurrentHealthPoints <= 0) {
             Destroy(this.gameObject);
         }
+    }
+
+    public void Attack(BaseUnit attackee)
+    {
+        attackee.TakeDamage(this.Damage);
     }
 
     public void ShowHealth(bool show)

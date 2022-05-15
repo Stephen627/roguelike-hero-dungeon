@@ -26,17 +26,15 @@ public class Tile : MonoBehaviour {
     private void OnMouseEnter() {
         this.highlight.SetActive(true);
         MenuManager.Instance.ShowTileInfo(this);
-        if (this.OccupiedUnit) {
+        if (this.OccupiedUnit)
             this.OccupiedUnit.ShowHealth(true);
-        }
     }
 
     private void OnMouseExit() {
         this.highlight.SetActive(false);
         MenuManager.Instance.ShowTileInfo(null);
-        if (this.OccupiedUnit) {
+        if (this.OccupiedUnit)
             this.OccupiedUnit.ShowHealth(false);
-        }
     }
 
     private void OnMouseDown() {
@@ -45,18 +43,9 @@ public class Tile : MonoBehaviour {
         if (this.OccupiedUnit != null) {
             if (this.OccupiedUnit.Faction == Faction.Hero)
                 UnitManager.Instance.SetSelectedHero((BaseHero) this.OccupiedUnit);
-            else {
-                if (UnitManager.Instance.SelectedHero != null) {
-                    BaseEnemy enemy = (BaseEnemy) this.OccupiedUnit;
-                    enemy.TakeDamage(UnitManager.Instance.SelectedHero.Damage);
-                }
-            }
-        } else {
-            if (UnitManager.Instance.SelectedHero != null) {
-                this.SetUnit(UnitManager.Instance.SelectedHero);
-
-                UnitManager.Instance.SetSelectedHero(null);
-            }
-        }
+            else if (UnitManager.Instance.SelectedHero != null)
+                UnitManager.Instance.SelectedHero.Attack((BaseEnemy) this.OccupiedUnit);
+        } else if (UnitManager.Instance.SelectedHero != null)
+            this.SetUnit(UnitManager.Instance.SelectedHero);
     }
 }
