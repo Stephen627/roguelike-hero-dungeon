@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class UnitManager : MonoBehaviour {
+public class UnitManager : MonoBehaviour
+{
     public static UnitManager Instance;
     private List<ScriptableUnit> units;
     public BaseHero SelectedHero;
+    public BaseEnemy SelectedEnemy;
 
-    private void Awake() {
+    private void Awake()
+    {
         UnitManager.Instance = this;
 
         this.units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
     }
 
-    public void SpawnHeroes() {
+    public void SpawnHeroes()
+    {
         int heroCount = 1;
 
         for (int i = 0; i < heroCount; i++) {
@@ -26,7 +30,8 @@ public class UnitManager : MonoBehaviour {
         }
     }
 
-    public void SpawnEnemies() {
+    public void SpawnEnemies()
+    {
         int enemyCount = 1;
 
         for (int i = 0; i < enemyCount; i++) {
@@ -38,12 +43,19 @@ public class UnitManager : MonoBehaviour {
         }
     }
 
-    public void SetSelectedHero(BaseHero hero) {
+    public void SetSelectedHero(BaseHero hero)
+    {
         MenuManager.Instance.ShowSelectedHero(hero);
         this.SelectedHero = hero;
     }
 
-    private T GetRandomUnit<T>(Faction faction) where T : BaseUnit {
+    public void SetSelectedEnemy(BaseEnemy enemy)
+    {
+        this.SelectedEnemy = enemy;
+    }
+
+    private T GetRandomUnit<T>(Faction faction) where T : BaseUnit
+    {
         return (T) this.units.Where(u => u.faction == faction)
             .OrderBy(o => Random.value)
             .First()

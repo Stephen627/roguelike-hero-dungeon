@@ -8,11 +8,13 @@ public class MenuManager : MonoBehaviour
     public static MenuManager Instance;
     [SerializeField] private GameObject selectedHeroObject, tileObject, tileUnitObject;
 
-    private void Awake() {
+    private void Awake()
+    {
         MenuManager.Instance = this;
     }
 
-    public void ShowTileInfo(Tile tile) {
+    public void ShowTileInfo(Tile tile)
+    {
         if (tile == null) {
             this.tileObject.SetActive(false);
             this.tileUnitObject.SetActive(false);
@@ -28,7 +30,8 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void ShowSelectedHero(BaseHero hero) {
+    public void ShowSelectedHero(BaseHero hero)
+    {
         if (hero == null) {
             this.selectedHeroObject.SetActive(false);
             return;

@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : MonoBehaviour {
+public class Tile : MonoBehaviour
+{
     public string TileName;
     [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] private GameObject highlight;
@@ -11,10 +12,12 @@ public class Tile : MonoBehaviour {
     public BaseUnit OccupiedUnit;
     public bool Walkable => this.isWalkable && this.OccupiedUnit == null;
 
-    public virtual void Init(int x, int y) {
+    public virtual void Init(int x, int y)
+    {
     }
 
-    public void SetUnit(BaseUnit unit) {
+    public void SetUnit(BaseUnit unit)
+    {
         if (unit.OccupiedTile != null)
             unit.OccupiedTile.OccupiedUnit = null;
 
@@ -23,21 +26,24 @@ public class Tile : MonoBehaviour {
         unit.OccupiedTile = this;
     }
 
-    private void OnMouseEnter() {
+    private void OnMouseEnter()
+    {
         this.highlight.SetActive(true);
         MenuManager.Instance.ShowTileInfo(this);
         if (this.OccupiedUnit)
             this.OccupiedUnit.ShowHealth(true);
     }
 
-    private void OnMouseExit() {
+    private void OnMouseExit()
+    {
         this.highlight.SetActive(false);
         MenuManager.Instance.ShowTileInfo(null);
         if (this.OccupiedUnit)
             this.OccupiedUnit.ShowHealth(false);
     }
 
-    private void OnMouseDown() {
+    private void OnMouseDown()
+    {
         if (GameManager.Instance.gameState != GameState.HeroesTurn) return;
 
         if (this.OccupiedUnit != null) {

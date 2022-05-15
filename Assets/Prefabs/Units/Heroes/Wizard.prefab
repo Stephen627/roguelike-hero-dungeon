@@ -99,10 +99,12 @@ MonoBehaviour:
   UnitName: Wizard
   OccupiedTile: {fileID: 0}
   Faction: 0
-  ActionPoints: 5
+  MaxActionPoints: 0
   MaxHealthPoints: 5
   HealthBar: {fileID: 8627348834069675072}
   Damage: 2
+  Moves:
+  - {fileID: 11400000, guid: 019ee75e6ce74451a96f15e182a84df4, type: 2}
 --- !u!1001 &2023660344169455304
 PrefabInstance:
   m_ObjectHideFlags: 0

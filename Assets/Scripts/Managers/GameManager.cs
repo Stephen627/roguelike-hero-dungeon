@@ -1,21 +1,25 @@
 using System;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
     public static GameManager Instance;
     public GameState gameState;
 
     public Action<GameState> OnGameStateChanged;
 
-    private void Awake() {
+    private void Awake()
+    {
         GameManager.Instance = this;    
     }
 
-    private void Start() {
+    private void Start()
+    {
         this.ChangeState(GameState.GenerateGrid);
     }
 
-    public void ChangeState(GameState newState) {
+    public void ChangeState(GameState newState)
+    {
         this.gameState = newState;
 
         switch (newState) {
@@ -43,7 +47,8 @@ public class GameManager : MonoBehaviour {
     }
 }
 
-public enum GameState {
+public enum GameState
+{
     GenerateGrid = 0,
     SpawnHeroes = 1,
     SpawnEnemies = 2,

@@ -2,7 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseUnit : MonoBehaviour {
+public class BaseUnit : MonoBehaviour
+{
     public string UnitName;
     public Tile OccupiedTile;
     public Faction Faction;
@@ -10,6 +11,7 @@ public class BaseUnit : MonoBehaviour {
     public float MaxHealthPoints;
     public HealthBar HealthBar;
     public float Damage;
+    public Move[] Moves;
     private float CurrentHealthPoints;
     private int CurrentActionPoints;
 
