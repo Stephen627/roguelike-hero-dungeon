@@ -10,7 +10,6 @@ public class BaseUnit : MonoBehaviour
     public int MaxActionPoints;
     public float MaxHealthPoints;
     public HealthBar HealthBar;
-    public float Damage;
     public Move[] Moves;
     private float CurrentHealthPoints;
     private int CurrentActionPoints;
@@ -24,9 +23,9 @@ public class BaseUnit : MonoBehaviour
         }
     }
 
-    public void Attack(BaseUnit attackee)
+    public void Attack(Move move, BaseUnit attackee)
     {
-        attackee.TakeDamage(this.Damage);
+        attackee.TakeDamage(move.Damage);
     }
 
     public void ShowHealth(bool show)

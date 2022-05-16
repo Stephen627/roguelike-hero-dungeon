@@ -49,8 +49,8 @@ public class Tile : MonoBehaviour
         if (this.OccupiedUnit != null) {
             if (this.OccupiedUnit.Faction == Faction.Hero)
                 UnitManager.Instance.SetSelectedHero((BaseHero) this.OccupiedUnit);
-            else if (UnitManager.Instance.SelectedHero != null)
-                UnitManager.Instance.SelectedHero.Attack((BaseEnemy) this.OccupiedUnit);
+            else
+                UnitManager.Instance.SetSelectedEnemy((BaseEnemy) this.OccupiedUnit);
         } else if (UnitManager.Instance.SelectedHero != null && this.Walkable)
             this.SetUnit(UnitManager.Instance.SelectedHero);
     }

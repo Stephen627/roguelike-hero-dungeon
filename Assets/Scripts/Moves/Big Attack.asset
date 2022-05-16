@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8a398fd90b14a840188fb5315ebda9a2, type: 3}
-  m_Name: Basic Attack
+  m_Name: Big Attack
   m_EditorClassIdentifier: 
-  Name: Basic Attack
-  Damage: 2
-  Range: 1
-  ActionPoints: 1
+  Name: Big Attack
+  Damage: 20
+  Range: 5
+  ActionPoints: 5

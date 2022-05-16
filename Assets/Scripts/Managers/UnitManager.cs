@@ -9,6 +9,7 @@ public class UnitManager : MonoBehaviour
     private List<ScriptableUnit> units;
     public BaseHero SelectedHero;
     public BaseEnemy SelectedEnemy;
+    public Move SelectedMove;
 
     private void Awake()
     {
@@ -46,12 +47,27 @@ public class UnitManager : MonoBehaviour
     public void SetSelectedHero(BaseHero hero)
     {
         MenuManager.Instance.ShowSelectedHero(hero);
+        MenuManager.Instance.ShowMoves(hero);
         this.SelectedHero = hero;
     }
 
     public void SetSelectedEnemy(BaseEnemy enemy)
     {
+        if (!this.SelectedHero || !this.SelectedMove)
+            return;
+
         this.SelectedEnemy = enemy;
+        this.PerformMove();
+    }
+
+    public void PerformMove()
+    {
+        this.SelectedHero.Attack(this.SelectedMove, this.SelectedEnemy);
+    }
+
+    public void SetSelectedMove(Move move)
+    {
+        this.SelectedMove = move;
     }
 
     private T GetRandomUnit<T>(Faction faction) where T : BaseUnit

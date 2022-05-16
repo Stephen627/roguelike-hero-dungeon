@@ -8,4 +8,5 @@ public class Move : ScriptableObject
     public string Name;
     public float Damage;
     public float Range;
+    public int ActionPoints;
 }

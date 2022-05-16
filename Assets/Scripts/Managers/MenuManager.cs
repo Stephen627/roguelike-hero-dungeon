@@ -7,6 +7,7 @@ public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
     [SerializeField] private GameObject selectedHeroObject, tileObject, tileUnitObject;
+    [SerializeField] private GameObject Moves;
 
     private void Awake()
     {
@@ -39,5 +40,20 @@ public class MenuManager : MonoBehaviour
 
         this.selectedHeroObject.GetComponentInChildren<Text>().text = hero.UnitName;
         this.selectedHeroObject.SetActive(true);
+    }
+
+    public void ShowMoves(BaseHero hero)
+    {
+        this.Moves.gameObject.SetActive(true);
+        MoveButton[] buttons = this.Moves.GetComponentsInChildren<MoveButton>();
+        if (buttons.Length != hero.Moves.Length)
+            throw new System.Exception("Incorrect number of moves");
+
+        for (int i = 0; i < hero.Moves.Length; i++) {
+            Move move = hero.Moves[i];
+            MoveButton button = buttons[i];
+
+            button.SetMove(move);
+        }
     }
 }
