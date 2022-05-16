@@ -102,3 +102,26 @@ Get a permenant debuff, but when the curse is lifted get a powerful buff
 
 ## Rest Mechanic
 Between stages the player should be given the option to rest. Resting will fully heal the party. As a punishment for healing the game difficulty should be increased, by increasing the turn counter by a set amount. Maybe further into a run this amount of increase, 10% of turns already taken.
+
+## Colours
+
+Blue 1: #00a8ff
+Blue 2: #0097e6
+Purple 1: #9c88ff
+Purple 2: #8c7ae6
+Yellow 1: #fbc531
+Yellow 2: #e1b12c
+Green 1: #4cd137
+Green 2: #44bd32
+Middle Blue 1: #487eb0
+Middle Blue 2: #40739e
+Red 1: #e84118
+Red 2: #c23616
+White 1: #f5f6fa
+White 2: #dcdde1
+Grey 1: #7f8fa6
+Grey 2: #718093
+Dark Blue 1: #273c75
+Dark Blue 2: #192a56
+Black 1: #353b48
+Black 2: #2f3640
