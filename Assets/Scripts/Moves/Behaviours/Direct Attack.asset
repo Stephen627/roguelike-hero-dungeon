@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 623dd26be395564a0a5f03d2436ccbc2, type: 3}
-  m_Name: Basic Attack
+  m_Script: {fileID: 11500000, guid: 558b8397fbb99e4c9a66509487e6f77c, type: 3}
+  m_Name: Direct Attack
   m_EditorClassIdentifier: 
-  Name: Basic Attack
-  Damage: 2
-  Range: 1
-  ActionPoints: 1
-  Behaviour: {fileID: 11400000, guid: 43b5174932850ec7f91d73c8068a1c28, type: 2}
+  Radius: 1

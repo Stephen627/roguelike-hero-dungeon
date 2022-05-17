@@ -9,4 +9,7 @@ public class Move : ScriptableObject
     public float Damage;
     public float Range;
     public int ActionPoints;
+    [SerializeField] public Behaviour Behaviour;
+
 }
+

@@ -8,7 +8,6 @@ public class UnitManager : MonoBehaviour
     public static UnitManager Instance;
     private List<ScriptableUnit> units;
     public BaseHero SelectedHero;
-    public BaseEnemy SelectedEnemy;
     public Move SelectedMove;
 
     private void Awake()
@@ -51,18 +50,12 @@ public class UnitManager : MonoBehaviour
         this.SelectedHero = hero;
     }
 
-    public void SetSelectedEnemy(BaseEnemy enemy)
+    public void AttackAtLocation(Vector3 pos) 
     {
-        if (!this.SelectedHero || !this.SelectedMove)
-            return;
-
-        this.SelectedEnemy = enemy;
-        this.PerformMove();
-    }
-
-    public void PerformMove()
-    {
-        this.SelectedHero.Attack(this.SelectedMove, this.SelectedEnemy);
+        var units = this.SelectedMove.Behaviour.GetAffectedUnits(pos);
+        for (int i = 0; i < units.Length; i++) {
+            this.SelectedHero.Attack(this.SelectedMove, units[i]);
+        }
     }
 
     public void SetSelectedMove(Move move)

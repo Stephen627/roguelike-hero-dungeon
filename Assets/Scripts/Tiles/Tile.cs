@@ -6,7 +6,7 @@ public class Tile : MonoBehaviour
 {
     public string TileName;
     [SerializeField] protected SpriteRenderer spriteRenderer;
-    [SerializeField] private GameObject highlight;
+    [SerializeField] public GameObject highlight;
     [SerializeField] private bool isWalkable;
 
     public BaseUnit OccupiedUnit;
@@ -50,7 +50,7 @@ public class Tile : MonoBehaviour
             if (this.OccupiedUnit.Faction == Faction.Hero)
                 UnitManager.Instance.SetSelectedHero((BaseHero) this.OccupiedUnit);
             else
-                UnitManager.Instance.SetSelectedEnemy((BaseEnemy) this.OccupiedUnit);
+                UnitManager.Instance.AttackAtLocation(this.transform.position);
         } else if (UnitManager.Instance.SelectedHero != null && this.Walkable)
             this.SetUnit(UnitManager.Instance.SelectedHero);
     }

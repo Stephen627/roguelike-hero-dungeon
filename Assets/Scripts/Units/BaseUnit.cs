@@ -38,4 +38,28 @@ public class BaseUnit : MonoBehaviour
         this.CurrentHealthPoints = this.MaxHealthPoints;
         this.HealthBar.SetHealth(this.CurrentHealthPoints, this.MaxHealthPoints);
     }
+
+    private void OnMouseEnter()
+    {
+        this.OccupiedTile.highlight.SetActive(true);
+        MenuManager.Instance.ShowTileInfo(this.OccupiedTile);
+        this.ShowHealth(true);
+    }
+
+    private void OnMouseExit()
+    {
+        this.OccupiedTile.highlight.SetActive(false);
+        MenuManager.Instance.ShowTileInfo(null);
+        this.ShowHealth(false);
+    }
+
+    private void OnMouseDown()
+    {
+        if (GameManager.Instance.gameState != GameState.HeroesTurn) return;
+
+        if (this.Faction == Faction.Hero)
+            UnitManager.Instance.SetSelectedHero((BaseHero) this);
+        else
+            UnitManager.Instance.AttackAtLocation(this.transform.position);
+    }
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3825731033174921885}
   - component: {fileID: 4246362629041302579}
   - component: {fileID: 1427502766070901357}
+  - component: {fileID: 600486088968299806}
   m_Layer: 0
   m_Name: Wizard
   m_TagString: Untagged
@@ -101,16 +102,41 @@ MonoBehaviour:
   UnitName: Wizard
   OccupiedTile: {fileID: 0}
   Faction: 0
-  MaxActionPoints: 0
+  MaxActionPoints: 2
   MaxHealthPoints: 5
   HealthBar: {fileID: 8627348834069675072}
-  Damage: 2
   Moves:
   - {fileID: 11400000, guid: 019ee75e6ce74451a96f15e182a84df4, type: 2}
   - {fileID: 11400000, guid: f9d3839468f492ab2b91d266a0ddd596, type: 2}
   - {fileID: 11400000, guid: 019ee75e6ce74451a96f15e182a84df4, type: 2}
   - {fileID: 11400000, guid: 019ee75e6ce74451a96f15e182a84df4, type: 2}
   - {fileID: 11400000, guid: 019ee75e6ce74451a96f15e182a84df4, type: 2}
+--- !u!61 &600486088968299806
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450209117846984918}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1001 &2023660344169455304
 PrefabInstance:
   m_ObjectHideFlags: 0
