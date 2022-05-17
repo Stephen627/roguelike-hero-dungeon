@@ -17,6 +17,12 @@ public class UnitManager : MonoBehaviour
         this.units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown("space"))
+            this.SelectedMove = null;
+    }
+
     public void SpawnHeroes()
     {
         int heroCount = 1;

@@ -51,7 +51,11 @@ public class Tile : MonoBehaviour
                 UnitManager.Instance.SetSelectedHero((BaseHero) this.OccupiedUnit);
             else
                 UnitManager.Instance.AttackAtLocation(this.transform.position);
-        } else if (UnitManager.Instance.SelectedHero != null && this.Walkable)
-            this.SetUnit(UnitManager.Instance.SelectedHero);
+        } else if (UnitManager.Instance.SelectedHero != null && this.Walkable) {
+            if (UnitManager.Instance.SelectedMove)
+                UnitManager.Instance.AttackAtLocation(this.transform.position);
+            else
+                this.SetUnit(UnitManager.Instance.SelectedHero);
+        }
     }
 }
