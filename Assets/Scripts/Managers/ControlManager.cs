@@ -4,10 +4,17 @@ using UnityEngine;
 public class ControlManager : MonoBehaviour
 {
     public static ControlManager Instance;
+    public Move SelectedMove;
     
     private void Awake()
     {
         ControlManager.Instance = this;    
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown("space"))
+            this.SelectedMove = null;
     }
 
     public void OnMouseEnterTile(Tile tile)
@@ -34,13 +41,18 @@ public class ControlManager : MonoBehaviour
         if (tile.OccupiedUnit != null) {
             if (tile.OccupiedUnit.Faction == Faction.Hero)
                 UnitManager.Instance.SetSelectedHero((BaseHero) tile.OccupiedUnit);
-            else
-                UnitManager.Instance.AttackAtLocation(tile.transform.position);
+            else if (this.SelectedMove)
+                UnitManager.Instance.AttackAtLocation(tile.transform.position, this.SelectedMove);
         } else if (UnitManager.Instance.SelectedHero != null && tile.Walkable) {
-            if (UnitManager.Instance.SelectedMove)
-                UnitManager.Instance.AttackAtLocation(tile.transform.position);
+            if (this.SelectedMove)
+                UnitManager.Instance.AttackAtLocation(tile.transform.position, this.SelectedMove);
             else
                 tile.SetUnit(UnitManager.Instance.SelectedHero);
         }
+    }
+
+    public void SetSelectedMove(Move move)
+    {
+        this.SelectedMove = move;
     }
 }

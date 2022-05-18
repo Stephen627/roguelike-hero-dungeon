@@ -10,7 +10,7 @@ public class MoveButton : Button
 
     public override void OnPointerClick(PointerEventData pointerEventData)
     {
-        UnitManager.Instance.SetSelectedMove(this.Move);
+        ControlManager.Instance.SetSelectedMove(this.Move);
     }
 
     public void SetMove(Move move)
