@@ -7,6 +7,8 @@ public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance;
     private List<ScriptableUnit> units;
+    private List<BaseHero> heros;
+    private List<BaseEnemy> enemies;
     public BaseHero SelectedHero;
 
     private void Awake()
@@ -14,11 +16,25 @@ public class UnitManager : MonoBehaviour
         UnitManager.Instance = this;
 
         this.units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
+        this.heros = new List<BaseHero>();
+        this.enemies = new List<BaseEnemy>();
+    }
+
+    public void BeginNewTurn(Faction faction)
+    {
+        switch (faction) {
+            case Faction.Hero:
+                this.heros.ForEach(unit => unit.BeginNewTurn());
+            break;
+            case Faction.Enemy:
+                this.enemies.ForEach(unit => unit.BeginNewTurn());
+            break;
+        }
     }
 
     public void SpawnHeroes()
     {
-        int heroCount = 1;
+        int heroCount = 3;
 
         for (int i = 0; i < heroCount; i++) {
             BaseHero randomPrefab = GetRandomUnit<BaseHero>(Faction.Hero);
@@ -26,6 +42,7 @@ public class UnitManager : MonoBehaviour
             Tile randomTile = GridManager.Instance.GetHeroSpawnTile();
 
             randomTile.SetUnit(spawnedHero);
+            this.heros.Add(spawnedHero);
         }
     }
 
@@ -39,6 +56,7 @@ public class UnitManager : MonoBehaviour
             Tile randomTile = GridManager.Instance.GetEnemySpawnTile();
 
             randomTile.SetUnit(spawnedEnemy);
+            this.enemies.Add(spawnedEnemy);
         }
     }
 
@@ -51,13 +69,23 @@ public class UnitManager : MonoBehaviour
 
     public void AttackAtLocation(Vector3 pos, Move move) 
     {
+        // Position out of range
         if ((this.SelectedHero.transform.position - pos).magnitude > move.Range)
             return;
-            
+
+        // Hero doesn't have enough action points
+        if (this.SelectedHero.CurrentActionPoints < move.ActionPoints)
+            return;
+
         var units = move.Behaviour.GetAffectedUnits(pos);
         for (int i = 0; i < units.Length; i++) {
             this.SelectedHero.Attack(move, units[i]);
         }
+
+        this.SelectedHero.PerformedAction(move.ActionPoints);
+
+        if (this.heros.Where(hero => hero.TurnEnded).Count() == this.heros.Count())
+            GameManager.Instance.ChangeState(GameState.EnemiesTurn);
     }
 
     private T GetRandomUnit<T>(Faction faction) where T : BaseUnit

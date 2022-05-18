@@ -12,7 +12,9 @@ public class BaseUnit : MonoBehaviour
     public HealthBar HealthBar;
     public Move[] Moves;
     private float CurrentHealthPoints;
-    private int CurrentActionPoints;
+    public int CurrentActionPoints;
+    public bool TurnEnded => this.ended || this.CurrentActionPoints <= 0;
+    private bool ended;
 
     public void TakeDamage(float damage)
     {
@@ -31,6 +33,17 @@ public class BaseUnit : MonoBehaviour
     public void ShowHealth(bool show)
     {
         this.HealthBar.gameObject.SetActive(show);
+    }
+
+    public void BeginNewTurn()
+    {
+        this.CurrentActionPoints = this.MaxActionPoints;
+        this.ended = false;
+    }
+
+    public void PerformedAction(int actionPoints)
+    {
+        this.CurrentActionPoints -= actionPoints;
     }
 
     private void Start()

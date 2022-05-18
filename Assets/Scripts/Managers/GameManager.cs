@@ -36,8 +36,11 @@ public class GameManager : MonoBehaviour
                 this.ChangeState(GameState.HeroesTurn);
             break;
             case GameState.HeroesTurn:
+                UnitManager.Instance.BeginNewTurn(Faction.Hero);
             break;
             case GameState.EnemiesTurn:
+                UnitManager.Instance.BeginNewTurn(Faction.Enemy);
+                this.ChangeState(GameState.HeroesTurn);
             break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
