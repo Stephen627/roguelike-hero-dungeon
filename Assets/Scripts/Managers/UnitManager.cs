@@ -51,6 +51,9 @@ public class UnitManager : MonoBehaviour
 
     public void AttackAtLocation(Vector3 pos, Move move) 
     {
+        if ((this.SelectedHero.transform.position - pos).magnitude > move.Range)
+            return;
+            
         var units = move.Behaviour.GetAffectedUnits(pos);
         for (int i = 0; i < units.Length; i++) {
             this.SelectedHero.Attack(move, units[i]);
