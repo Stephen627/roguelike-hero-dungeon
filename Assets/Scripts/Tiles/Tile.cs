@@ -28,34 +28,16 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        this.highlight.SetActive(true);
-        MenuManager.Instance.ShowTileInfo(this);
-        if (this.OccupiedUnit)
-            this.OccupiedUnit.ShowHealth(true);
+        ControlManager.Instance.OnMouseEnterTile(this);
     }
 
     private void OnMouseExit()
     {
-        this.highlight.SetActive(false);
-        MenuManager.Instance.ShowTileInfo(null);
-        if (this.OccupiedUnit)
-            this.OccupiedUnit.ShowHealth(false);
+        ControlManager.Instance.OnMouseExitTile(this);
     }
 
     private void OnMouseDown()
     {
-        if (GameManager.Instance.gameState != GameState.HeroesTurn) return;
-
-        if (this.OccupiedUnit != null) {
-            if (this.OccupiedUnit.Faction == Faction.Hero)
-                UnitManager.Instance.SetSelectedHero((BaseHero) this.OccupiedUnit);
-            else
-                UnitManager.Instance.AttackAtLocation(this.transform.position);
-        } else if (UnitManager.Instance.SelectedHero != null && this.Walkable) {
-            if (UnitManager.Instance.SelectedMove)
-                UnitManager.Instance.AttackAtLocation(this.transform.position);
-            else
-                this.SetUnit(UnitManager.Instance.SelectedHero);
-        }
+        ControlManager.Instance.OnMouseDownTile(this);
     }
 }

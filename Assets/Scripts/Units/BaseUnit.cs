@@ -41,25 +41,16 @@ public class BaseUnit : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        this.OccupiedTile.highlight.SetActive(true);
-        MenuManager.Instance.ShowTileInfo(this.OccupiedTile);
-        this.ShowHealth(true);
+        ControlManager.Instance.OnMouseEnterTile(this.OccupiedTile);
     }
 
     private void OnMouseExit()
     {
-        this.OccupiedTile.highlight.SetActive(false);
-        MenuManager.Instance.ShowTileInfo(null);
-        this.ShowHealth(false);
+        ControlManager.Instance.OnMouseExitTile(this.OccupiedTile);
     }
 
     private void OnMouseDown()
     {
-        if (GameManager.Instance.gameState != GameState.HeroesTurn) return;
-
-        if (this.Faction == Faction.Hero)
-            UnitManager.Instance.SetSelectedHero((BaseHero) this);
-        else
-            UnitManager.Instance.AttackAtLocation(this.transform.position);
+        ControlManager.Instance.OnMouseDownTile(this.OccupiedTile);
     }
 }
