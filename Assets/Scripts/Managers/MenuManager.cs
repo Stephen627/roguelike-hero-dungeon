@@ -38,7 +38,8 @@ public class MenuManager : MonoBehaviour
             return;
         }
 
-        this.selectedHeroObject.GetComponentInChildren<Text>().text = hero.UnitName;
+        this.selectedHeroObject.transform.Find("Hero Name").GetComponent<Text>().text = hero.UnitName;
+        this.selectedHeroObject.transform.Find("Action Points").GetComponent<Text>().text = $"Action Points {@hero.CurrentActionPoints}/{@hero.MaxActionPoints}";
         this.selectedHeroObject.SetActive(true);
     }
 

@@ -11,6 +11,12 @@ public class UnitManager : MonoBehaviour
     private List<BaseEnemy> enemies;
     public BaseHero SelectedHero;
 
+    private void Update()
+    {
+        if (this.SelectedHero)
+            MenuManager.Instance.ShowSelectedHero(this.SelectedHero);
+    }
+
     private void Awake()
     {
         UnitManager.Instance = this;
