@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558b8397fbb99e4c9a66509487e6f77c, type: 3}
   m_Name: Small Blast
   m_EditorClassIdentifier: 
-  Radius: 1
+  Radius: 5
