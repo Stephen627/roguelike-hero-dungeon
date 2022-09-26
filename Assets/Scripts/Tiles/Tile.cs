@@ -38,6 +38,8 @@ public class Tile : MonoBehaviour
 
     private void OnMouseDown()
     {
-        ControlManager.Instance.OnMouseDownTile(this);
+        EventManager.Instance.Invoke(this);
+        //EventManager.Instance.TileClick?.Invoke(this);
+        //ControlManager.Instance.OnMouseDownTile(this);
     }
 }

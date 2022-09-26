@@ -24,6 +24,8 @@ public class UnitManager : MonoBehaviour
         this.units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
         this.heros = new List<BaseHero>();
         this.enemies = new List<BaseEnemy>();
+
+        EventManager.Instance.HeroClick += this.SetSelectedHero;
     }
 
     public void BeginNewTurn(Faction faction)
