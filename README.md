@@ -33,6 +33,7 @@
   - or as a magic user, they will start producing a small flame before throwing a fireball
 - This might make the enemies feel like they are no longer responding to you, so maybe certain actions will break the determined next turn action
   - For example, if the melee attacker has determined they are attacking a certain player character next turn and another attacks them first. The enemy action can change.
+- Xcom like heath bars
 
 ## Base Stats
 
