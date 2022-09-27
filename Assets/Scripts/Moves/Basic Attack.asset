@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Basic Attack
   Damage: 2
-  Range: 1
+  Range: 1.5
   ActionPoints: 1
   Behaviour: {fileID: 11400000, guid: 43b5174932850ec7f91d73c8068a1c28, type: 2}
