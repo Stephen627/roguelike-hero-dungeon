@@ -28,18 +28,22 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        ControlManager.Instance.OnMouseEnterTile(this);
+        TileEventArgs args = new TileEventArgs();
+        args.tile = this;
+        EventManager.Instance.Invoke(EventType.TileFocus, args);
     }
 
     private void OnMouseExit()
     {
-        ControlManager.Instance.OnMouseExitTile(this);
+        TileEventArgs args = new TileEventArgs();
+        args.tile = this;
+        EventManager.Instance.Invoke(EventType.TileBlur, args);
     }
 
     private void OnMouseDown()
     {
-        EventManager.Instance.Invoke(this);
-        //EventManager.Instance.TileClick?.Invoke(this);
-        //ControlManager.Instance.OnMouseDownTile(this);
+        TileEventArgs args = new TileEventArgs();
+        args.tile = this;
+        EventManager.Instance.Invoke(EventType.TileClick, args);
     }
 }

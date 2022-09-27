@@ -25,7 +25,7 @@ public class UnitManager : MonoBehaviour
         this.heros = new List<BaseHero>();
         this.enemies = new List<BaseEnemy>();
 
-        EventManager.Instance.HeroClick += this.SetSelectedHero;
+        EventManager.Instance.TileClick += this.OnTileClick;
     }
 
     public void BeginNewTurn(Faction faction)
@@ -75,32 +75,29 @@ public class UnitManager : MonoBehaviour
         this.SelectedHero = hero;
     }
 
-    public void AttackAtLocation(Vector3 pos, Move move) 
-    {
-        // Position out of range
-        if ((this.SelectedHero.transform.position - pos).magnitude > move.Range)
-            return;
-
-        // Hero doesn't have enough action points
-        if (this.SelectedHero.CurrentActionPoints < move.ActionPoints)
-            return;
-
-        var units = move.Behaviour.GetAffectedUnits(pos);
-        for (int i = 0; i < units.Length; i++) {
-            this.SelectedHero.Attack(move, units[i]);
-        }
-
-        this.SelectedHero.PerformedAction(move.ActionPoints);
-
-        if (this.heros.Where(hero => hero.TurnEnded).Count() == this.heros.Count())
-            GameManager.Instance.ChangeState(GameState.EnemiesTurn);
-    }
-
     private T GetRandomUnit<T>(Faction faction) where T : BaseUnit
     {
         return (T) this.units.Where(u => u.faction == faction)
             .OrderBy(o => Random.value)
             .First()
             .unitPrefab;
+    }
+
+    private void OnTileClick(TileEventArgs args)
+    {
+        Tile tile = args.tile;
+        if (GameManager.Instance.gameState != GameState.HeroesTurn) return;
+
+        if (tile.OccupiedUnit != null) {
+            if (tile.OccupiedUnit.Faction == Faction.Hero)
+                this.SetSelectedHero((BaseHero) tile.OccupiedUnit);
+            else if (ControlManager.Instance.SelectedMove)
+                this.SelectedHero.AttackAtLocation(tile.transform.position, ControlManager.Instance.SelectedMove);
+        } else if (UnitManager.Instance.SelectedHero != null && tile.Walkable) {
+            if (ControlManager.Instance.SelectedMove)
+                this.SelectedHero.AttackAtLocation(tile.transform.position, ControlManager.Instance.SelectedMove);
+            else
+                tile.SetUnit(UnitManager.Instance.SelectedHero);
+        }
     }
 }

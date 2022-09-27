@@ -46,6 +46,24 @@ public class BaseUnit : MonoBehaviour
         this.CurrentActionPoints -= actionPoints;
     }
 
+    public void AttackAtLocation(Vector3 pos, Move move) 
+    {
+        // Position out of range
+        if ((this.transform.position - pos).magnitude > move.Range)
+            return;
+
+        // Hero doesn't have enough action points
+        if (this.CurrentActionPoints < move.ActionPoints)
+            return;
+
+        var units = move.Behaviour.GetAffectedUnits(pos);
+        for (int i = 0; i < units.Length; i++) {
+            this.Attack(move, units[i]);
+        }
+
+        this.PerformedAction(move.ActionPoints);
+    }
+
     private void Start()
     {
         this.CurrentHealthPoints = this.MaxHealthPoints;
@@ -54,16 +72,22 @@ public class BaseUnit : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        ControlManager.Instance.OnMouseEnterTile(this.OccupiedTile);
+        TileEventArgs args = new TileEventArgs();
+        args.tile = this.OccupiedTile;
+        EventManager.Instance.Invoke(EventType.TileFocus, args);
     }
 
     private void OnMouseExit()
     {
-        ControlManager.Instance.OnMouseExitTile(this.OccupiedTile);
+        TileEventArgs args = new TileEventArgs();
+        args.tile = this.OccupiedTile;
+        EventManager.Instance.Invoke(EventType.TileBlur, args);
     }
 
     private void OnMouseDown()
     {
-        ControlManager.Instance.OnMouseDownTile(this.OccupiedTile);
+        TileEventArgs args = new TileEventArgs();
+        args.tile = this.OccupiedTile;
+        EventManager.Instance.Invoke(EventType.TileClick, args);
     }
 }

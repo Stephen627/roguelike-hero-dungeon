@@ -12,6 +12,9 @@ public class MenuManager : MonoBehaviour
     private void Awake()
     {
         MenuManager.Instance = this;
+        
+        EventManager.Instance.TileFocus += this.FocusTile;
+        EventManager.Instance.TileBlur += this.BlurTile;
     }
 
     public void ShowTileInfo(Tile tile)
@@ -56,5 +59,24 @@ public class MenuManager : MonoBehaviour
 
             button.SetMove(move);
         }
+    }
+
+    public void FocusTile(TileEventArgs args)
+    {
+        Tile tile = args.tile;
+        tile.highlight.SetActive(true);
+        this.ShowTileInfo(tile);
+        if (tile.OccupiedUnit)
+            tile.OccupiedUnit.ShowHealth(true);
+
+    }
+
+    public void BlurTile(TileEventArgs args)
+    {
+        Tile tile = args.tile;
+        tile.highlight.SetActive(false);
+        this.ShowTileInfo(null);
+        if (tile.OccupiedUnit)
+            tile.OccupiedUnit.ShowHealth(false);
     }
 }
