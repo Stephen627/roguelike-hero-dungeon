@@ -27,15 +27,16 @@ public class GameManager : MonoBehaviour
                 GridManager.Instance.GenerateGrid();
                 this.ChangeState(GameState.SpawnHeroes);
             break;
-            case GameState.SpawnHeroes:
-                UnitManager.Instance.SpawnHeroes();
-                this.ChangeState(GameState.SpawnEnemies);
-            break;
             case GameState.SpawnEnemies:
                 UnitManager.Instance.SpawnEnemies();
                 this.ChangeState(GameState.HeroesTurn);
             break;
+            case GameState.SpawnHeroes:
+                UnitManager.Instance.SpawnHeroes();
+                this.ChangeState(GameState.SpawnEnemies);
+            break;
             case GameState.HeroesTurn:
+                UnitManager.Instance.SetToDefaultHero();
                 UnitManager.Instance.BeginNewTurn(Faction.Hero);
             break;
             case GameState.EnemiesTurn:

@@ -24,7 +24,10 @@ public class UnitManager : MonoBehaviour
         this.units = Resources.LoadAll<ScriptableUnit>("Units").ToList();
         this.heros = new List<BaseHero>();
         this.enemies = new List<BaseEnemy>();
+    }
 
+    private void Start()
+    {
         EventManager.Instance.TileClick += this.OnTileClick;
     }
 
@@ -80,6 +83,11 @@ public class UnitManager : MonoBehaviour
         this.SelectedHero = hero;
     }
 
+    public void SetToDefaultHero()
+    {
+        this.SetSelectedHero(this.heros[0]);
+    }
+
     private T GetRandomUnit<T>(Faction faction) where T : BaseUnit
     {
         return (T) this.units.Where(u => u.faction == faction)
@@ -98,11 +106,11 @@ public class UnitManager : MonoBehaviour
                 this.SetSelectedHero((BaseHero) tile.OccupiedUnit);
             else if (ControlManager.Instance.SelectedMove)
                 this.SelectedHero.AttackAtLocation(tile.transform.position, ControlManager.Instance.SelectedMove);
-        } else if (UnitManager.Instance.SelectedHero != null && tile.Walkable) {
+        } else if (this.SelectedHero != null && tile.Walkable) {
             if (ControlManager.Instance.SelectedMove)
                 this.SelectedHero.AttackAtLocation(tile.transform.position, ControlManager.Instance.SelectedMove);
             else
-                tile.SetUnit(UnitManager.Instance.SelectedHero);
+                tile.SetUnit(this.SelectedHero);
         }
     }
 }

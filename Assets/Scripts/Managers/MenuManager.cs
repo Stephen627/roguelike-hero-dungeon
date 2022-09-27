@@ -12,7 +12,10 @@ public class MenuManager : MonoBehaviour
     private void Awake()
     {
         MenuManager.Instance = this;
-        
+    }
+
+    private void Start()
+    {
         EventManager.Instance.TileFocus += this.FocusTile;
         EventManager.Instance.TileBlur += this.BlurTile;
     }

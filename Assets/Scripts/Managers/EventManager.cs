@@ -10,6 +10,7 @@ public class TileEventArgs : EventArgs
     public Tile tile;
 }
 public delegate void TileEvent(TileEventArgs args);
+public delegate void EmptyEvent();
 
 public class EventManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class EventManager : MonoBehaviour
     public event TileEvent TileClick;
     public event TileEvent TileFocus;
     public event TileEvent TileBlur;
+    public event EmptyEvent EndPlayerTurn;
 
     private void Awake()
     {
@@ -36,6 +38,9 @@ public class EventManager : MonoBehaviour
             case EventType.TileBlur:
                 this.TileBlur?.Invoke((TileEventArgs) args);
                 break;
+            case EventType.EndPlayerTurn:
+                this.EndPlayerTurn?.Invoke();
+                break;
         }
     }
 }
@@ -44,5 +49,6 @@ public enum EventType
 {
     TileClick,
     TileFocus,
-    TileBlur
+    TileBlur,
+    EndPlayerTurn,
 }

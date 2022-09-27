@@ -72,22 +72,23 @@ public class BaseUnit : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        TileEventArgs args = new TileEventArgs();
-        args.tile = this.OccupiedTile;
-        EventManager.Instance.Invoke(EventType.TileFocus, args);
+        EventManager.Instance.Invoke(EventType.TileFocus, this.GetArgsForThis());
     }
 
     private void OnMouseExit()
     {
-        TileEventArgs args = new TileEventArgs();
-        args.tile = this.OccupiedTile;
-        EventManager.Instance.Invoke(EventType.TileBlur, args);
+        EventManager.Instance.Invoke(EventType.TileBlur, this.GetArgsForThis());
     }
 
     private void OnMouseDown()
     {
+        EventManager.Instance.Invoke(EventType.TileClick, this.GetArgsForThis());
+    }
+
+    private TileEventArgs GetArgsForThis()
+    {
         TileEventArgs args = new TileEventArgs();
         args.tile = this.OccupiedTile;
-        EventManager.Instance.Invoke(EventType.TileClick, args);
+        return args;
     }
 }
