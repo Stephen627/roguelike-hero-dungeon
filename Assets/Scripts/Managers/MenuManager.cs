@@ -17,6 +17,12 @@ public class MenuManager : MonoBehaviour
         EventManager.Instance.TileBlur += this.BlurTile;
     }
 
+    private void OnDestroy()
+    {
+        EventManager.Instance.TileFocus -= this.FocusTile;
+        EventManager.Instance.TileBlur -= this.BlurTile;
+    }
+
     public void ShowTileInfo(Tile tile)
     {
         if (tile == null) {

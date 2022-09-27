@@ -28,6 +28,11 @@ public class UnitManager : MonoBehaviour
         EventManager.Instance.TileClick += this.OnTileClick;
     }
 
+    private void OnDestroy()
+    {
+        EventManager.Instance.TileClick -= this.OnTileClick;    
+    }
+
     public void BeginNewTurn(Faction faction)
     {
         switch (faction) {
