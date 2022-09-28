@@ -9,7 +9,12 @@ public class TileEventArgs : EventArgs
 {
     public Tile tile;
 }
+public class HeroEventArgs : EventArgs
+{
+    public BaseHero hero;
+}
 public delegate void TileEvent(TileEventArgs args);
+public delegate void HeroEvent(HeroEventArgs args);
 public delegate void EmptyEvent();
 
 public class EventManager : MonoBehaviour
@@ -20,6 +25,7 @@ public class EventManager : MonoBehaviour
     public event TileEvent TileFocus;
     public event TileEvent TileBlur;
     public event EmptyEvent EndPlayerTurn;
+    public event HeroEvent SelectHero;
 
     private void Awake()
     {
@@ -41,6 +47,9 @@ public class EventManager : MonoBehaviour
             case EventType.EndPlayerTurn:
                 this.EndPlayerTurn?.Invoke();
                 break;
+            case EventType.SelectHero:
+                this.SelectHero?.Invoke((HeroEventArgs) args);
+                break;
         }
     }
 }
@@ -51,4 +60,5 @@ public enum EventType
     TileFocus,
     TileBlur,
     EndPlayerTurn,
+    SelectHero,
 }

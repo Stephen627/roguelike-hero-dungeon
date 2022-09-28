@@ -18,6 +18,7 @@ public class MenuManager : MonoBehaviour
     {
         EventManager.Instance.TileFocus += this.FocusTile;
         EventManager.Instance.TileBlur += this.BlurTile;
+        EventManager.Instance.SelectHero += this.ShowSelectedHero;
     }
 
     private void OnDestroy()
@@ -43,8 +44,9 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    public void ShowSelectedHero(BaseHero hero)
+    public void ShowSelectedHero(HeroEventArgs args)
     {
+        BaseHero hero = args.hero;
         if (hero == null) {
             this.selectedHeroObject.SetActive(false);
             return;
@@ -53,6 +55,8 @@ public class MenuManager : MonoBehaviour
         this.selectedHeroObject.transform.Find("Hero Name").GetComponent<Text>().text = hero.UnitName;
         this.selectedHeroObject.transform.Find("Action Points").GetComponent<Text>().text = $"Action Points {@hero.CurrentActionPoints}/{@hero.MaxActionPoints}";
         this.selectedHeroObject.SetActive(true);
+
+        this.ShowMoves(hero);
     }
 
     public void ShowMoves(BaseHero hero)

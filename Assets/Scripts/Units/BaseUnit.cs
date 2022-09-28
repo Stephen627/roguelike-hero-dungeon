@@ -41,7 +41,7 @@ public class BaseUnit : MonoBehaviour
         this.ended = false;
     }
 
-    public void PerformedAction(int actionPoints)
+    public virtual void PerformedAction(int actionPoints)
     {
         this.CurrentActionPoints -= actionPoints;
     }
