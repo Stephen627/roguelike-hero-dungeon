@@ -87,8 +87,7 @@ public class BaseUnit : MonoBehaviour
 
     private TileEventArgs GetArgsForThis()
     {
-        TileEventArgs args = new TileEventArgs();
-        args.tile = this.OccupiedTile;
+        TileEventArgs args = new TileEventArgs(this.OccupiedTile);
         return args;
     }
 }

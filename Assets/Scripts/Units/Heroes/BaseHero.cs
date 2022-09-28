@@ -7,8 +7,7 @@ public class BaseHero : BaseUnit
     public override void PerformedAction(int actionPoints)
     {
         base.PerformedAction(actionPoints);
-        HeroEventArgs args = new HeroEventArgs();
-        args.hero = this;
+        HeroEventArgs args = new HeroEventArgs(this);
         EventManager.Instance.Invoke(EventType.SelectHero, args);
     }
 }

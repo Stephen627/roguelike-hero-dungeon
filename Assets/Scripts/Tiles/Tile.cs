@@ -43,8 +43,7 @@ public class Tile : MonoBehaviour
 
     private TileEventArgs GetArgsForThis()
     {
-        TileEventArgs args = new TileEventArgs();
-        args.tile = this;
+        TileEventArgs args = new TileEventArgs(this);
         return args;
     }
 }
