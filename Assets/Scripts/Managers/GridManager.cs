@@ -21,12 +21,14 @@ public class GridManager : MonoBehaviour
     {
         EventManager.Instance.SpawnHero += this.SpawnHero;
         EventManager.Instance.SpawnEnemy += this.SpawnEnemy;
+        EventManager.Instance.GenerateMap += this.GenerateGrid;
     }
 
     private void OnDestroy()
     {
         EventManager.Instance.SpawnHero -= this.SpawnHero;
         EventManager.Instance.SpawnEnemy -= this.SpawnEnemy;
+        EventManager.Instance.GenerateMap -= this.GenerateGrid;
     }
 
     public void GenerateGrid()

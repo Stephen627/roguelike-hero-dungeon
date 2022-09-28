@@ -16,6 +16,17 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         this.ChangeState(GameState.GenerateGrid);
+        EventManager.Instance.ChangeGameState += this.ChangeGameState;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Instance.ChangeGameState -= this.ChangeGameState;    
+    }
+
+    private void ChangeGameState(GameStateEventArgs args)
+    {
+        this.ChangeState(args.state);
     }
 
     public void ChangeState(GameState newState)
@@ -24,24 +35,35 @@ public class GameManager : MonoBehaviour
 
         switch (newState) {
             case GameState.GenerateGrid:
-                GridManager.Instance.GenerateGrid();
-                this.ChangeState(GameState.SpawnHeroes);
-            break;
-            case GameState.SpawnEnemies:
-                UnitManager.Instance.SpawnEnemies();
-                this.ChangeState(GameState.HeroesTurn);
-            break;
-            case GameState.SpawnHeroes:
-                UnitManager.Instance.SpawnHeroes();
+                EventManager.Instance.Invoke(EventType.GenerateMap);
                 this.ChangeState(GameState.SpawnEnemies);
             break;
+            case GameState.SpawnEnemies:
+                FactionEventArgs spawnEnemiesArgs = new FactionEventArgs(Faction.Enemy);
+                EventManager.Instance.Invoke(EventType.SpawnUnits, spawnEnemiesArgs);
+
+                this.ChangeState(GameState.SpawnHeroes);
+            break;
+            case GameState.SpawnHeroes:
+                FactionEventArgs spawnHeroesArgs = new FactionEventArgs(Faction.Hero);
+                EventManager.Instance.Invoke(EventType.SpawnUnits, spawnHeroesArgs);
+
+                this.ChangeState(GameState.DecideEnemyNextTurn);
+            break;
+            case GameState.DecideEnemyNextTurn:
+                // Display an animation to show the player what the next move will be
+                // Trigger an event to change the state when this state is done
+                this.ChangeState(GameState.HeroesTurn);
+            break;
             case GameState.HeroesTurn:
-                UnitManager.Instance.SetToDefaultHero();
-                UnitManager.Instance.BeginNewTurn(Faction.Hero);
+                FactionEventArgs heroTurnArgs = new FactionEventArgs(Faction.Hero);
+                EventManager.Instance.Invoke(EventType.StartTurn, heroTurnArgs);
             break;
             case GameState.EnemiesTurn:
-                UnitManager.Instance.BeginNewTurn(Faction.Enemy);
-                this.ChangeState(GameState.HeroesTurn);
+                FactionEventArgs enemyTurnArgs = new FactionEventArgs(Faction.Enemy);
+                EventManager.Instance.Invoke(EventType.StartTurn, enemyTurnArgs);
+
+                // Trigger an event to change the state when this state is done
             break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(newState), newState, null);
@@ -57,5 +79,6 @@ public enum GameState
     SpawnHeroes = 1,
     SpawnEnemies = 2,
     HeroesTurn = 3,
-    EnemiesTurn = 4
+    EnemiesTurn = 4,
+    DecideEnemyNextTurn = 5,
 }

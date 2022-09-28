@@ -23,18 +23,23 @@ public class UnitManager : MonoBehaviour
     private void Start()
     {
         EventManager.Instance.TileClick += this.OnTileClick;
+        EventManager.Instance.StartTurn += this.BeginNewTurn;
+        EventManager.Instance.SpawnUnits += this.SpawnFaction;
     }
 
     private void OnDestroy()
     {
-        EventManager.Instance.TileClick -= this.OnTileClick;    
+        EventManager.Instance.TileClick -= this.OnTileClick;
+        EventManager.Instance.StartTurn -= this.BeginNewTurn;
+        EventManager.Instance.SpawnUnits -= this.SpawnFaction;
     }
 
-    public void BeginNewTurn(Faction faction)
+    public void BeginNewTurn(FactionEventArgs args)
     {
-        switch (faction) {
+        switch (args.faction) {
             case Faction.Hero:
                 this.heros.ForEach(unit => unit.BeginNewTurn());
+                this.SetToDefaultHero();
             break;
             case Faction.Enemy:
                 this.enemies.ForEach(unit => unit.BeginNewTurn());
@@ -42,7 +47,19 @@ public class UnitManager : MonoBehaviour
         }
     }
 
-    public void SpawnHeroes()
+    public void SpawnFaction(FactionEventArgs args)
+    {
+        switch (args.faction) {
+            case Faction.Hero:
+                this.SpawnHeroes();
+            break;
+            case Faction.Enemy:
+                this.SpawnEnemies();
+            break;
+        }
+    }
+
+    private void SpawnHeroes()
     {
         int heroCount = 3;
 
@@ -57,7 +74,7 @@ public class UnitManager : MonoBehaviour
         }
     }
 
-    public void SpawnEnemies()
+    private void SpawnEnemies()
     {
         int enemyCount = 1;
 

@@ -32,11 +32,30 @@ public class EnemyEventArgs : EventArgs
         this.enemy = enemy;
     }
 }
+public class FactionEventArgs : EventArgs
+{
+    public Faction faction { get; }
+
+    public FactionEventArgs(Faction faction)
+    {
+        this.faction = faction;
+    }
+}
+public class GameStateEventArgs : EventArgs
+{
+    public GameState state { get; }
+
+    public GameStateEventArgs(GameState state)
+    {
+        this.state = state;
+    }
+}
 
 public delegate void TileEvent(TileEventArgs args);
 public delegate void HeroEvent(HeroEventArgs args);
-public delegate void SpawnHero(HeroEventArgs args);
-public delegate void SpawnEnemy(EnemyEventArgs args);
+public delegate void EnemyEvent(EnemyEventArgs args);
+public delegate void FactionEvent(FactionEventArgs args);
+public delegate void GameStateEvent(GameStateEventArgs args);
 public delegate void EmptyEvent();
 
 public class EventManager : MonoBehaviour
@@ -46,40 +65,52 @@ public class EventManager : MonoBehaviour
     public event TileEvent TileClick;
     public event TileEvent TileFocus;
     public event TileEvent TileBlur;
-    public event EmptyEvent EndPlayerTurn;
+    public event GameStateEvent ChangeGameState;
     public event HeroEvent SelectHero;
-    public event SpawnHero SpawnHero;
-    public event SpawnEnemy SpawnEnemy;
+    public event HeroEvent SpawnHero;
+    public event EnemyEvent SpawnEnemy;
+    public event FactionEvent StartTurn;
+    public event FactionEvent SpawnUnits;
+    public event EmptyEvent GenerateMap;
 
     private void Awake()
     {
         EventManager.Instance = this;
     }
 
-    public void Invoke(EventType evt, EventArgs args)
+    public void Invoke(EventType evt, EventArgs args = null)
     {
         switch (evt) {
             case EventType.TileClick:
                 this.TileClick?.Invoke((TileEventArgs) args);
-                break;
+            break;
             case EventType.TileFocus:
                 this.TileFocus?.Invoke((TileEventArgs) args);
-                break;
+            break;
             case EventType.TileBlur:
                 this.TileBlur?.Invoke((TileEventArgs) args);
-                break;
-            case EventType.EndPlayerTurn:
-                this.EndPlayerTurn?.Invoke();
-                break;
+            break;
+            case EventType.ChangeGameState:
+                this.ChangeGameState?.Invoke((GameStateEventArgs) args);
+            break;
             case EventType.SelectHero:
                 this.SelectHero?.Invoke((HeroEventArgs) args);
-                break;
+            break;
             case EventType.SpawnHero:
                 this.SpawnHero?.Invoke((HeroEventArgs) args);
-                break;
+            break;
             case EventType.SpawnEnemy:
                 this.SpawnEnemy?.Invoke((EnemyEventArgs) args);
-                break;
+            break;
+            case EventType.StartTurn:
+                this.StartTurn?.Invoke((FactionEventArgs) args);
+            break;
+            case EventType.SpawnUnits:
+                this.SpawnUnits?.Invoke((FactionEventArgs) args);
+            break;
+            case EventType.GenerateMap:
+                this.GenerateMap?.Invoke();
+            break;
         }
     }
 }
@@ -89,8 +120,11 @@ public enum EventType
     TileClick,
     TileFocus,
     TileBlur,
-    EndPlayerTurn,
+    ChangeGameState,
     SelectHero,
     SpawnHero,
     SpawnEnemy,
+    StartTurn,
+    SpawnUnits,
+    GenerateMap,
 }
