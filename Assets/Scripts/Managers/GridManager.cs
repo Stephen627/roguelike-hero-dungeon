@@ -17,13 +17,25 @@ public class GridManager : MonoBehaviour
         GridManager.Instance = this;
     }
 
+    private void Start()
+    {
+        EventManager.Instance.SpawnHero += this.SpawnHero;
+        EventManager.Instance.SpawnEnemy += this.SpawnEnemy;
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.Instance.SpawnHero -= this.SpawnHero;
+        EventManager.Instance.SpawnEnemy -= this.SpawnEnemy;
+    }
+
     public void GenerateGrid()
     {
         this.tiles = new Dictionary<Vector2, Tile>();
         GameObject tilesParentObject = new GameObject("Tiles");
         for (int x = 0; x < this.width; x++) {
             for (int y = 0; y < this.height; y++) {
-                Tile randomTile = Random.Range(0, 6) == 3 ? this.mountainTile : this.grassTile;
+                Tile randomTile = this.grassTile;
                 Tile spawnedTile = Instantiate<Tile>(randomTile, new Vector3(x, y), Quaternion.identity);
                 spawnedTile.transform.parent = tilesParentObject.transform;
                 spawnedTile.name = $"Tile {x}x{y}";
@@ -37,12 +49,24 @@ public class GridManager : MonoBehaviour
         this.mainCamera.position = new Vector3((float) this.width / 2 - 0.5f, (float) this.height / 2 - 0.5f, -10);
     }
 
+    public void SpawnHero(HeroEventArgs args)
+    {
+        Tile randomTile = this.GetHeroSpawnTile();
+        randomTile.SetUnit(args.hero);
+    }
+
     public Tile GetHeroSpawnTile()
     {
         return this.tiles.Where(t => t.Key.x < this.width / 2 && t.Value.Walkable)
             .OrderBy(o => Random.value)
             .First()
             .Value;
+    }
+
+    public void SpawnEnemy(EnemyEventArgs args)
+    {
+        Tile randomTile = this.GetEnemySpawnTile();
+        randomTile.SetUnit(args.enemy);
     }
 
     public Tile GetEnemySpawnTile()

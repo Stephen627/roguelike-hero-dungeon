@@ -49,9 +49,10 @@ public class UnitManager : MonoBehaviour
         for (int i = 0; i < heroCount; i++) {
             BaseHero randomPrefab = this.GetRandomUnit<BaseHero>(Faction.Hero);
             BaseHero spawnedHero = Instantiate(randomPrefab);
-            Tile randomTile = GridManager.Instance.GetHeroSpawnTile();
 
-            randomTile.SetUnit(spawnedHero);
+            HeroEventArgs args = new HeroEventArgs(spawnedHero);
+            EventManager.Instance.Invoke(EventType.SpawnHero, args);
+            
             this.heros.Add(spawnedHero);
         }
     }
@@ -63,17 +64,17 @@ public class UnitManager : MonoBehaviour
         for (int i = 0; i < enemyCount; i++) {
             BaseEnemy randomPrefab = this.GetRandomUnit<BaseEnemy>(Faction.Enemy);
             BaseEnemy spawnedEnemy = Instantiate(randomPrefab);
-            Tile randomTile = GridManager.Instance.GetEnemySpawnTile();
 
-            randomTile.SetUnit(spawnedEnemy);
+            EnemyEventArgs args = new EnemyEventArgs(spawnedEnemy);
+            EventManager.Instance.Invoke(EventType.SpawnEnemy, args);
+
             this.enemies.Add(spawnedEnemy);
         }
     }
 
     public void SetSelectedHero(BaseHero hero)
     {
-        HeroEventArgs args = new HeroEventArgs();
-        args.hero = hero;
+        HeroEventArgs args = new HeroEventArgs(hero);
         EventManager.Instance.Invoke(EventType.SelectHero, args);
         this.SelectedHero = hero;
     }
