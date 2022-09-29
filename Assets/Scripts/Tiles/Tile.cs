@@ -7,9 +7,11 @@ public class Tile : MonoBehaviour
     public string TileName;
     [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] public GameObject highlight;
+    [SerializeField] public GameObject moveable;
     [SerializeField] private bool isWalkable;
 
     public BaseUnit OccupiedUnit;
+    public bool IsMoveable = false;
     public bool Walkable => this.isWalkable && this.OccupiedUnit == null;
 
     public virtual void Init(int x, int y)

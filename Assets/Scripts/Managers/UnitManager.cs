@@ -61,7 +61,7 @@ public class UnitManager : MonoBehaviour
 
     private void SpawnHeroes()
     {
-        int heroCount = 3;
+        int heroCount = 1;
 
         for (int i = 0; i < heroCount; i++) {
             BaseHero randomPrefab = this.GetRandomUnit<BaseHero>(Faction.Hero);
@@ -93,6 +93,7 @@ public class UnitManager : MonoBehaviour
     {
         HeroEventArgs args = new HeroEventArgs(hero);
         EventManager.Instance.Invoke(EventType.SelectHero, args);
+        EventManager.Instance.Invoke(EventType.ShowMoveableTiles, args);
         this.SelectedHero = hero;
     }
 
@@ -122,8 +123,18 @@ public class UnitManager : MonoBehaviour
         } else if (this.SelectedHero != null && tile.Walkable) {
             if (ControlManager.Instance.SelectedMove)
                 this.SelectedHero.AttackAtLocation(tile.transform.position, ControlManager.Instance.SelectedMove);
-            else
+            else {
+                if (!tile.IsMoveable)
+                    return;
+
+                float range = (this.SelectedHero.transform.position - tile.transform.position).magnitude;
+                int usedActionPoints = (int) System.Math.Ceiling(range / this.SelectedHero.Speed);
+                Debug.Log(usedActionPoints);
                 tile.SetUnit(this.SelectedHero);
+                this.SelectedHero.PerformedAction(usedActionPoints);
+                HeroEventArgs moveableTileArgs = new HeroEventArgs(this.SelectedHero);
+                EventManager.Instance.Invoke(EventType.ShowMoveableTiles, moveableTileArgs);
+            }
         }
     }
 }

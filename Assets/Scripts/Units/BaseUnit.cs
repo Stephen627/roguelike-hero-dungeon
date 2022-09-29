@@ -13,6 +13,7 @@ public class BaseUnit : MonoBehaviour
     public Move[] Moves;
     private float CurrentHealthPoints;
     public int CurrentActionPoints;
+    public float Speed = 2f;
     public bool TurnEnded => this.ended || this.CurrentActionPoints <= 0;
     private bool ended;
 
@@ -44,6 +45,9 @@ public class BaseUnit : MonoBehaviour
     public virtual void PerformedAction(int actionPoints)
     {
         this.CurrentActionPoints -= actionPoints;
+
+        if (this.CurrentActionPoints < 0)
+            this.CurrentActionPoints = 0;
     }
 
     public void AttackAtLocation(Vector3 pos, Move move) 

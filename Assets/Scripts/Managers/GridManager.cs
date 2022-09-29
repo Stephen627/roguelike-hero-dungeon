@@ -22,6 +22,7 @@ public class GridManager : MonoBehaviour
         EventManager.Instance.SpawnHero += this.SpawnHero;
         EventManager.Instance.SpawnEnemy += this.SpawnEnemy;
         EventManager.Instance.GenerateMap += this.GenerateGrid;
+        EventManager.Instance.ShowMoveableTiles += this.ShowMoveableTiles;
     }
 
     private void OnDestroy()
@@ -29,6 +30,7 @@ public class GridManager : MonoBehaviour
         EventManager.Instance.SpawnHero -= this.SpawnHero;
         EventManager.Instance.SpawnEnemy -= this.SpawnEnemy;
         EventManager.Instance.GenerateMap -= this.GenerateGrid;
+        EventManager.Instance.ShowMoveableTiles -= this.ShowMoveableTiles;
     }
 
     public void GenerateGrid()
@@ -85,5 +87,33 @@ public class GridManager : MonoBehaviour
             return tile;
 
         return null;
+    }
+
+    public void ShowMoveableTiles(HeroEventArgs args)
+    {
+        this.HideMoveableTiles();
+
+        Tile centerTile = args.hero.OccupiedTile;
+        float moveRadius = args.hero.CurrentActionPoints * args.hero.Speed;
+
+        Tile[] moveableTiles = Physics2D.OverlapCircleAll(centerTile.transform.position, moveRadius)
+            .Select(c=>c.gameObject.GetComponent<Tile>())
+            .Where(c=>c)
+            .ToArray();
+
+
+        for (int i = 0; i < moveableTiles.Length; i++) {
+            moveableTiles[i].moveable.SetActive(true);
+            moveableTiles[i].IsMoveable = true;
+        }
+    }
+
+    public void HideMoveableTiles()
+    {
+        Tile[] allTiles = UnityEngine.Object.FindObjectsOfType<Tile>();
+        foreach (KeyValuePair<Vector2, Tile> tile in tiles) {
+            tile.Value.moveable.SetActive(false);
+            tile.Value.IsMoveable = false;
+        }
     }
 }

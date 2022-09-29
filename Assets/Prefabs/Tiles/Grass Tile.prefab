@@ -65,9 +65,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eacf64eb368203cad89042f927d9fc85, type: 3}
---- !u!1 &7429942574144878787 stripped
+--- !u!1 &3595881826556474886 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 6150042358555742297, guid: eacf64eb368203cad89042f927d9fc85, type: 3}
+  m_CorrespondingSourceObject: {fileID: 261772755375529628, guid: eacf64eb368203cad89042f927d9fc85, type: 3}
   m_PrefabInstance: {fileID: 3622340606973896858}
   m_PrefabAsset: {fileID: 0}
 --- !u!212 &4346359930973166874 stripped
@@ -75,9 +75,9 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 1014572994259023232, guid: eacf64eb368203cad89042f927d9fc85, type: 3}
   m_PrefabInstance: {fileID: 3622340606973896858}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &3595881826556474886 stripped
+--- !u!1 &7429942574144878787 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 261772755375529628, guid: eacf64eb368203cad89042f927d9fc85, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6150042358555742297, guid: eacf64eb368203cad89042f927d9fc85, type: 3}
   m_PrefabInstance: {fileID: 3622340606973896858}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &-1504502064364520863
@@ -95,7 +95,14 @@ MonoBehaviour:
   TileName: Grasslands
   spriteRenderer: {fileID: 4346359930973166874}
   highlight: {fileID: 3595881826556474886}
+  moveable: {fileID: 9098953569638101190}
   isWalkable: 1
   OccupiedUnit: {fileID: 0}
-  baseColor: {r: 0.4392157, g: 0.7411765, b: 0.36862746, a: 1}
-  offsetColor: {r: 0.4, g: 0.6901961, b: 0.33333334, a: 1}
+  IsMoveable: 0
+  baseColor: {r: 0.29803923, g: 0.81960785, b: 0.21568628, a: 1}
+  offsetColor: {r: 0.26666668, g: 0.7411765, b: 0.19607843, a: 1}
+--- !u!1 &9098953569638101190 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5476616321735841884, guid: eacf64eb368203cad89042f927d9fc85, type: 3}
+  m_PrefabInstance: {fileID: 3622340606973896858}
+  m_PrefabAsset: {fileID: 0}

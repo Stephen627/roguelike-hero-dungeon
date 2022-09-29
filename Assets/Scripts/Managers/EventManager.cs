@@ -72,6 +72,7 @@ public class EventManager : MonoBehaviour
     public event FactionEvent StartTurn;
     public event FactionEvent SpawnUnits;
     public event EmptyEvent GenerateMap;
+    public event HeroEvent ShowMoveableTiles;
 
     private void Awake()
     {
@@ -111,6 +112,9 @@ public class EventManager : MonoBehaviour
             case EventType.GenerateMap:
                 this.GenerateMap?.Invoke();
             break;
+            case EventType.ShowMoveableTiles:
+                this.ShowMoveableTiles?.Invoke((HeroEventArgs) args);
+            break;
         }
     }
 }
@@ -127,4 +131,5 @@ public enum EventType
     StartTurn,
     SpawnUnits,
     GenerateMap,
+    ShowMoveableTiles,
 }

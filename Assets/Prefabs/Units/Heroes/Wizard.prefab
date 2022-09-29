@@ -111,6 +111,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 019ee75e6ce74451a96f15e182a84df4, type: 2}
   - {fileID: 11400000, guid: 019ee75e6ce74451a96f15e182a84df4, type: 2}
   - {fileID: 11400000, guid: 019ee75e6ce74451a96f15e182a84df4, type: 2}
+  CurrentActionPoints: 0
+  Speed: 2
 --- !u!61 &600486088968299806
 BoxCollider2D:
   m_ObjectHideFlags: 0
